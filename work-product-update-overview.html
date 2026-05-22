@@ -1,0 +1,3579 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Dr.'s Prime Work プロダクトアップデート総覧（社内資料）</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  /* ========================================
+     Tokens — 本番DP準拠 (mockup v4.6 + job-analysis テンプレ)
+     ======================================== */
+  :root {
+    --black:        #2D2D2D;
+    --blue-50:      #F5F8FE;
+    --blue-100:     #E1EAFC;
+    --blue-200:     #C3D4F9;
+    --blue-300:     #88AAF3;
+    --blue-500:     #074DE5;
+    --blueGray-50:  #F7FAFC;
+    --blueGray-100: #EDF2F7;
+    --blueGray-200: #E2E8F0;
+    --blueGray-300: #CBD5E0;
+    --blueGray-400: #A0AEC0;
+    --blueGray-500: #718096;
+    --blueGray-600: #5D738F;
+    --blueGray-700: #4A5568;
+    --blueGray-800: #263140;
+    --green-100:    #E2F5EC;
+    --green-500:    #0DA95F;
+    --green-700:    #0A874C;
+    --red-100:      #FFF5F5;
+    --red-500:      #E53E3E;
+    --red-600:      #DE4060;
+    --yellow-100:   #FEF3C7;
+    --yellow-500:   #F7D835;
+    --orange-700:   #92400E;
+    --fs-xxs: 10px;
+    --fs-xs: 11px;
+    --fs-sm: 12px;
+    --fs-md: 13px;
+    --fs-lg: 16px;
+    --fs-xl: 20px;
+    --fs-2xl: 24px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "BIZ UDPGothic", Meiryo, sans-serif;
+    color: var(--black);
+    line-height: 1.7;
+    background: #F2F4F8;
+    font-size: var(--fs-md);
+  }
+  a { color: var(--blue-500); text-decoration: none; }
+
+  /* ========================================
+     Layout
+     ======================================== */
+  .container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 56px 40px 80px;
+    background: #fff;
+    box-shadow: 0 0 1px rgba(0,0,0,0.04);
+  }
+
+  /* ========================================
+     Cover / Header
+     ======================================== */
+  .cover {
+    border-bottom: 1px solid var(--blueGray-200);
+    padding-bottom: 28px; margin-bottom: 36px;
+  }
+  .cover-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .eyebrow {
+    display: inline-block;
+    background: var(--blue-50); color: var(--blue-500);
+    font-size: var(--fs-xs); font-weight: 700;
+    padding: 4px 10px; border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+  .cover-date {
+    color: var(--blueGray-500); font-size: var(--fs-xs);
+  }
+  h1 {
+    font-size: 26px; margin-bottom: 6px;
+    color: var(--black); letter-spacing: -0.01em;
+    font-weight: 800;
+  }
+  h1 .sub {
+    font-size: var(--fs-md); color: var(--blueGray-500);
+    font-weight: 500; margin-left: 8px;
+  }
+  .cover-intent {
+    background: var(--blue-50);
+    border-left: 3px solid var(--blue-500);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin-top: 16px;
+    font-size: var(--fs-md);
+  }
+
+  /* ========================================
+     TOC — Compact, horizontal
+     ======================================== */
+  .toc {
+    margin-bottom: 48px;
+  }
+  .toc h3 {
+    font-size: var(--fs-xs);
+    color: var(--blueGray-500);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .toc-card {
+    display: flex; gap: 8px; align-items: flex-start;
+    padding: 10px 12px;
+    background: var(--blueGray-50);
+    border-radius: 6px;
+    font-size: var(--fs-xs);
+    color: var(--blueGray-700);
+    text-decoration: none;
+    line-height: 1.4;
+    transition: background 0.15s;
+  }
+  .toc-card:hover { background: var(--blue-50); color: var(--blue-500); }
+  .toc-card .num {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #fff; color: var(--blue-500);
+    font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: var(--fs-xxs);
+  }
+
+  /* ========================================
+     Section + Feature
+     ======================================== */
+  .section-band {
+    display: flex; align-items: center; gap: 16px;
+    margin: 56px 0 24px;
+    padding: 12px 0;
+    border-top: 2px solid var(--blue-500);
+    border-bottom: 1px solid var(--blueGray-100);
+  }
+  .section-band h2 {
+    font-size: 18px; font-weight: 800;
+    color: var(--black);
+    letter-spacing: -0.005em;
+  }
+  .section-band .num {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--blue-500); color: #fff;
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
+  .feature {
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+  }
+  /* fi-meta-area uses .feature-head — strip its border/margin */
+  .fi-meta-area .feature-head {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+  .feature-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 0 14px;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    border-top: 2px solid var(--blue-500);
+  }
+  .feature:first-of-type .feature-head { margin-top: 8px; }
+  .feature-head .id {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--blue-500); color: #fff;
+    font-size: 13px; font-weight: 800;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .feature-head h3 {
+    font-size: 22px; font-weight: 800; color: var(--black);
+    letter-spacing: -0.005em;
+    flex: 1;
+  }
+  .feature-head .new-badge {
+    display: inline-block;
+    background: var(--green-100); color: var(--green-700);
+    padding: 2px 8px; border-radius: 4px;
+    font-size: var(--fs-xs); font-weight: 700;
+  }
+  .feature-tagline {
+    color: var(--blueGray-600); font-size: var(--fs-md);
+    margin-bottom: 16px;
+  }
+
+  /* Compact problem/solve meta */
+  .meta-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .meta-box {
+    background: var(--blueGray-50);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: var(--fs-md);
+    border-left: 3px solid var(--blueGray-300);
+  }
+  .meta-box.problem { border-left-color: #F59E0B; }
+  .meta-box.solve { border-left-color: var(--blue-500); }
+  .meta-box .meta-label {
+    font-size: var(--fs-xs); font-weight: 700;
+    color: var(--blueGray-600);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .meta-box.problem .meta-label { color: #B45309; }
+  .meta-box.solve .meta-label { color: var(--blue-500); }
+  .meta-box p { margin: 0; font-size: var(--fs-md); line-height: 1.7; }
+  .meta-box ul { margin: 0; padding-left: 18px; font-size: var(--fs-md); }
+  .meta-box li { margin-bottom: 2px; }
+
+  /* Effect callout */
+  .effect-callout {
+    margin-top: 16px;
+    background: #F0FDF8;
+    border: 1px solid var(--green-100);
+    border-left: 3px solid var(--green-500);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    font-size: var(--fs-md);
+  }
+  .effect-callout .head {
+    display: inline-block;
+    background: var(--green-500); color: #fff;
+    padding: 2px 8px; border-radius: 4px;
+    font-size: var(--fs-xs); font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .effect-callout ul { margin: 4px 0 0; padding-left: 18px; }
+  .effect-callout li { margin-bottom: 2px; }
+
+  strong { color: var(--black); }
+
+  /* UI label strip above each mockup */
+  .ui-label {
+    display: flex; align-items: center; gap: 8px;
+    margin: 20px 0 8px;
+    font-size: var(--fs-xs);
+    color: var(--blueGray-600);
+  }
+  .ui-label .role {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: var(--fs-xs);
+    font-weight: 700;
+  }
+  .ui-label .role.hospital { background: var(--green-100); color: var(--green-700); }
+  .ui-label .role.doctor   { background: var(--blue-100); color: var(--blue-500); }
+  .ui-label .role.dual {
+    background: linear-gradient(90deg, var(--blue-100) 0%, var(--blue-100) 50%, var(--green-100) 50%, var(--green-100) 100%);
+    color: var(--blueGray-700);
+  }
+
+  /* ========================================
+     Browser Frame
+     ======================================== */
+  .browser-frame {
+    border: 1px solid var(--blueGray-200);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+    margin-bottom: 8px;
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 8px;
+    background: #F1F5F9;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--blueGray-200);
+  }
+  .browser-bar .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .browser-bar .dot.r { background: #FF5F57; }
+  .browser-bar .dot.y { background: #FEBC2E; }
+  .browser-bar .dot.g { background: #28C840; }
+  .browser-bar .url {
+    margin-left: 12px;
+    flex: 1;
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: var(--fs-xs);
+    color: var(--blueGray-500);
+  }
+
+  /* ========================================
+     App Shell — Sidebar 完全準拠 (template ベース)
+     ======================================== */
+  .app-shell { display: flex; min-height: 520px; background: #fff; }
+  .dp-sidebar {
+    width: 212px; flex-shrink: 0;
+    background: #fff;
+    border-right: 1px solid var(--blueGray-100);
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 24px 16px 12px;
+  }
+  .dp-sidebar-top { display: flex; flex-direction: column; gap: 24px; }
+  .dp-logo {
+    padding: 0 8px;
+    font-size: 16px; font-weight: 700;
+    color: var(--black);
+  }
+  .dp-logo .work { color: var(--blue-500); font-weight: 500; margin-left: 4px; }
+  .dp-nav { display: flex; flex-direction: column; gap: 4px; }
+  .dp-nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: var(--fs-md);
+    font-weight: 700;
+    color: var(--blue-500);
+    cursor: default;
+  }
+  .dp-nav-item.active { background: var(--blue-500); color: #fff; }
+  .dp-nav-item svg { flex-shrink: 0; width: 16px; height: 16px; }
+  .dp-notice-banner {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    color: var(--blue-500);
+    font-size: var(--fs-md);
+    font-weight: 700;
+    margin-top: 12px;
+  }
+  .dp-sidebar-help {
+    display: flex; align-items: center; gap: 6px;
+    padding: 0 12px;
+    font-size: var(--fs-xs);
+    color: var(--blue-500);
+    font-weight: 700;
+    text-decoration: underline;
+    margin-top: 8px;
+  }
+  .dp-sidebar-bottom {
+    border-top: 1px solid var(--blueGray-100);
+    padding-top: 12px;
+    margin-top: 12px;
+  }
+  .dp-sidebar-user {
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: var(--fs-sm);
+    color: var(--black); font-weight: 700;
+  }
+  .dp-sidebar-user .avatar-circle {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--blueGray-200);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: var(--fs-xs); color: var(--blueGray-600);
+    flex-shrink: 0;
+  }
+  .dp-main {
+    flex: 1; min-width: 0;
+    padding: 24px 32px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .page-title {
+    font-size: var(--fs-lg); font-weight: 700; color: var(--black);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .page-title::before {
+    content: ""; display: inline-block;
+    width: 4px; height: 18px; background: var(--blue-500); border-radius: 2px;
+  }
+
+  /* ========================================
+     Phone Frame (compact)
+     ======================================== */
+  .phone-frame {
+    width: 280px;
+    margin: 0 auto;
+    border: 8px solid #1a1a1a;
+    border-radius: 32px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  }
+  .phone-notch {
+    background: #1a1a1a; height: 16px;
+    display: flex; justify-content: center; align-items: center;
+  }
+  .phone-notch::after {
+    content: ''; width: 72px; height: 4px;
+    background: #2d2d2d; border-radius: 4px;
+  }
+  .phone-status-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 4px 16px;
+    font-size: var(--fs-xs); font-weight: 700;
+  }
+  .phone-top-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--blueGray-100);
+  }
+  .phone-top-bar .back-arrow {
+    color: var(--black); font-size: 18px; line-height: 1;
+  }
+  .phone-top-bar .title-text {
+    font-size: var(--fs-sm); font-weight: 700;
+  }
+  .phone-top-bar .hamburger { display: flex; flex-direction: column; gap: 3px; }
+  .phone-top-bar .hamburger span {
+    display: block; width: 18px; height: 2px; background: var(--black); border-radius: 1px;
+  }
+  .phone-screen {
+    padding: 12px 14px 14px;
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+    background: #fff;
+  }
+  .phone-screen.short { min-height: 360px; }
+  .phone-breadcrumb {
+    font-size: var(--fs-xxs); color: var(--blueGray-500); margin-bottom: 4px; line-height: 1.4;
+  }
+  .phone-breadcrumb a { color: var(--blue-500); text-decoration: underline; }
+  .phone-listing-title {
+    color: var(--blue-500); text-decoration: underline;
+    font-weight: 700; font-size: var(--fs-sm);
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .phone-time-h {
+    font-size: 18px; font-weight: 700;
+    margin-bottom: 4px; letter-spacing: -0.01em;
+  }
+  .phone-price { font-size: var(--fs-xs); margin-bottom: 2px; }
+  .phone-price strong { font-size: var(--fs-md); font-weight: 700; }
+  .phone-price-sub {
+    font-size: var(--fs-xxs); color: var(--blueGray-600);
+    line-height: 1.5; margin-bottom: 10px;
+  }
+  .phone-satisfaction-card {
+    border: 1px solid var(--blueGray-200);
+    border-radius: 6px;
+    margin-bottom: 10px; overflow: hidden;
+  }
+  .phone-sat-head {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--blueGray-50);
+    padding: 7px 10px;
+    font-size: var(--fs-xs); font-weight: 700;
+    border-bottom: 1px solid var(--blueGray-200);
+  }
+  .phone-sat-head .head-arrow { margin-left: auto; color: var(--blueGray-500); }
+  .phone-sat-body { padding: 4px 10px; }
+  .phone-sat-row {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 0;
+    border-bottom: 1px dashed var(--blueGray-100);
+    font-size: var(--fs-xxs);
+  }
+  .phone-sat-row:last-of-type { border-bottom: none; }
+  .phone-sat-row .sat-label { flex: 1; }
+  .phone-sat-row .sat-stars { display: inline-flex; gap: 1px; }
+  .phone-sat-row .sat-score {
+    font-weight: 700; min-width: 28px; text-align: right;
+  }
+  .star { color: var(--yellow-500); font-size: 11px; line-height: 1; }
+  .star.empty { color: var(--blueGray-200); }
+  .phone-sat-note { font-size: 9px; color: var(--blueGray-400); padding: 0 10px 6px; }
+  .phone-cta-btn {
+    background: var(--blue-500); color: #fff;
+    text-align: center; padding: 9px 0;
+    border-radius: 6px; font-weight: 700; font-size: var(--fs-sm);
+    margin: 8px 0;
+  }
+  .phone-section-h {
+    font-size: var(--fs-sm); font-weight: 700;
+    margin: 10px 0 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--blueGray-200);
+  }
+  /* Phone survey */
+  .phone-survey-q {
+    font-size: var(--fs-sm); font-weight: 700;
+    margin-bottom: 8px; line-height: 1.5;
+  }
+  .phone-survey-q .optional {
+    font-size: var(--fs-xxs);
+    background: #fff;
+    border: 1px solid var(--blueGray-300);
+    color: var(--blueGray-500);
+    padding: 1px 6px; border-radius: 3px;
+    margin-left: 4px;
+    font-weight: 600;
+  }
+  .phone-share-callout {
+    background: var(--blue-50);
+    border-radius: 6px; padding: 8px 10px;
+    font-size: var(--fs-xs);
+    color: var(--blueGray-700);
+    margin-bottom: 8px;
+    display: flex; gap: 8px; line-height: 1.5;
+  }
+  .phone-share-callout .icon {
+    flex-shrink: 0; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--blue-500); color: #fff;
+    font-size: 10px; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .phone-share-callout .em { color: var(--blue-500); font-weight: 700; }
+  .phone-survey-input {
+    background: var(--blueGray-50);
+    border: 1px solid var(--blueGray-200);
+    border-radius: 6px; height: 70px;
+    padding: 8px 10px;
+    color: var(--blueGray-400);
+    font-size: var(--fs-xs);
+  }
+
+  /* ========================================
+     Web Survey
+     ======================================== */
+  .web-survey-q {
+    font-size: var(--fs-md); font-weight: 700;
+    margin: 8px 0 12px; line-height: 1.6;
+  }
+  .web-survey-q .optional {
+    font-size: var(--fs-xs);
+    background: #fff;
+    border: 1px solid var(--blueGray-300);
+    color: var(--blueGray-500);
+    padding: 2px 8px; border-radius: 3px;
+    margin-left: 8px;
+    font-weight: 600;
+  }
+  .web-share-callout {
+    background: var(--blue-50);
+    border: 1px solid var(--blue-300);
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: var(--fs-md);
+    color: var(--blueGray-800);
+    margin-bottom: 12px;
+    display: flex; gap: 10px; align-items: flex-start;
+  }
+  .web-share-callout .icon {
+    flex-shrink: 0; width: 22px; height: 22px;
+    border-radius: 50%; background: var(--blue-500); color: #fff;
+    font-size: 13px; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .web-share-callout .em { color: var(--blue-500); font-weight: 700; }
+  .web-survey-input {
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 6px; height: 100px;
+    padding: 10px 12px;
+    color: var(--blueGray-400);
+    font-size: var(--fs-sm);
+  }
+
+  /* ========================================
+     Pair layout: phone + web side by side
+     ======================================== */
+  .ui-pair {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  /* ========================================
+     Survey Table (医師別サマリー)
+     ======================================== */
+  .survey-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+  .survey-table thead th {
+    padding: 7px 10px; font-weight: 600; text-align: center;
+    white-space: nowrap; border-bottom: 2px solid var(--blueGray-200);
+    font-size: var(--fs-xs);
+  }
+  .survey-table thead th.left { text-align: left; }
+  .survey-table thead th.g-work  { background: var(--blueGray-50); color: var(--blueGray-600); }
+  .survey-table thead th.g-skill { background: var(--blue-100); color: var(--blue-500); }
+  .survey-table thead th.g-staff { background: var(--green-100); color: var(--green-700); }
+  .survey-table thead th.g-time  { background: #FFF8E1; color: var(--orange-700); }
+  .survey-table tbody td {
+    padding: 8px 10px; text-align: center;
+    border-bottom: 1px solid var(--blueGray-100);
+    font-size: var(--fs-sm);
+  }
+  .survey-table tbody td.left { text-align: left; font-weight: 700; }
+  .period-row { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+  .period-row .label {
+    font-size: var(--fs-sm); font-weight: 600; color: var(--blueGray-600);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .period-select {
+    padding: 5px 10px; border: 1px solid var(--blueGray-200);
+    border-radius: 6px; font-size: var(--fs-sm); font-weight: 700;
+    color: var(--black); background: #fff;
+  }
+  .analytics-subtabs {
+    display: flex; gap: 24px; border-bottom: 1px solid var(--blueGray-200);
+    padding-bottom: 4px; margin-bottom: 16px;
+  }
+  .analytics-subtabs .st {
+    font-size: var(--fs-md); color: var(--blueGray-500); padding-bottom: 6px; cursor: default;
+  }
+  .analytics-subtabs .st.active {
+    color: var(--blue-500); font-weight: 700; border-bottom: 2px solid var(--blue-500);
+  }
+  .survey-footnote {
+    font-size: var(--fs-xs); color: var(--blueGray-400);
+    margin-top: 8px; line-height: 1.6;
+  }
+  .pagination-lg {
+    display: flex; align-items: center; justify-content: flex-end;
+    gap: 10px; font-size: var(--fs-sm);
+    color: var(--blueGray-600); font-weight: 600;
+    margin-top: 12px;
+  }
+  .pagination-lg button {
+    background: none; border: 1px solid var(--blueGray-200);
+    border-radius: 6px; color: var(--blueGray-500);
+    width: 28px; height: 28px; font-size: var(--fs-sm); cursor: default;
+  }
+
+  /* ========================================
+     Repeat intent table
+     ======================================== */
+  .repeat-detail-table { width: 100%; border-collapse: collapse; font-size: var(--fs-sm); }
+  .repeat-detail-table thead th {
+    background: var(--blueGray-50); padding: 8px 12px;
+    font-size: var(--fs-xs); font-weight: 600; color: var(--blueGray-600);
+    text-align: left; border-bottom: 1px solid var(--blueGray-200); white-space: nowrap;
+  }
+  .repeat-detail-table tbody td {
+    padding: 10px 12px; border-bottom: 1px solid var(--blueGray-100); white-space: nowrap;
+    font-size: var(--fs-sm);
+  }
+  .pill {
+    display: inline-block; padding: 2px 10px; border-radius: 4px;
+    font-size: var(--fs-xs); font-weight: 700;
+  }
+  .pill--good { background: var(--blue-50); color: var(--blue-500); }
+  .cal-skip-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    background: var(--blue-50); color: var(--blue-500);
+    border: 1px solid var(--blue-50);
+    border-radius: 4px;
+    font-size: var(--fs-sm); font-weight: 700;
+  }
+
+  /* ========================================
+     Scout Doctor card
+     ======================================== */
+  .scout-banner {
+    background: linear-gradient(90deg, #074DE5 0%, #4A7BFA 100%);
+    color: #fff;
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .scout-banner .sb-doctor {
+    width: 56px; height: 56px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; flex-shrink: 0;
+  }
+  .scout-banner .sb-body { flex: 1; font-size: var(--fs-sm); }
+  .scout-banner .sb-headline { font-size: var(--fs-sm); }
+  .scout-banner .sb-em {
+    font-size: 20px; font-weight: 800;
+    color: #FFE066; margin: 0 3px;
+  }
+  .scout-banner .sb-cta {
+    background: #fff; color: var(--blue-500);
+    border-radius: 99px; padding: 8px 16px;
+    font-size: var(--fs-sm); font-weight: 700;
+  }
+  .scout-tabs {
+    display: flex; gap: 24px;
+    border-bottom: 1px solid var(--blueGray-200);
+    margin-bottom: 16px;
+  }
+  .scout-tabs .t {
+    padding: 8px 0; font-size: var(--fs-md); color: var(--blueGray-500);
+  }
+  .scout-tabs .t.active {
+    color: var(--blue-500); font-weight: 700;
+    border-bottom: 2px solid var(--blue-500);
+  }
+  .scout-layout {
+    display: grid; grid-template-columns: 200px 1fr; gap: 20px;
+  }
+  .scout-filter-card {
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px;
+    padding: 14px;
+    font-size: var(--fs-sm);
+    align-self: start;
+  }
+  .scout-filter-card h3 {
+    font-size: var(--fs-sm); font-weight: 700;
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-bottom: 10px;
+  }
+  .scout-filter-card .field { margin-bottom: 10px; }
+  .scout-filter-card .field-label {
+    font-size: var(--fs-xs); color: var(--blueGray-600);
+    margin-bottom: 4px; font-weight: 700;
+  }
+  .scout-filter-card .field-input {
+    padding: 6px 10px; border: 1px solid var(--blueGray-200);
+    border-radius: 4px; font-size: var(--fs-xs); color: var(--blueGray-400);
+  }
+  .scout-filter-card .search-btn {
+    width: 100%; padding: 7px;
+    border: 1px solid var(--blue-500); color: var(--blue-500);
+    background: #fff; border-radius: 6px;
+    font-size: var(--fs-sm); font-weight: 700;
+  }
+  .doctor-card-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .doctor-card {
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px; padding: 14px;
+    background: #fff;
+    font-size: var(--fs-sm);
+  }
+  .doctor-card .top-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  .doctor-card .checkbox {
+    width: 14px; height: 14px; border: 1.5px solid var(--blueGray-300); border-radius: 2px;
+  }
+  .doctor-card .login-badge {
+    font-size: var(--fs-xs); color: var(--blueGray-500);
+  }
+  .doctor-card .login-badge::before {
+    content: '●'; color: var(--green-500); font-size: 9px; margin-right: 3px;
+  }
+  .doctor-card .pref-line {
+    display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px;
+  }
+  .doctor-card .pref-line .pref-name { font-size: 15px; font-weight: 700; }
+  .doctor-card .pref-line .hosp-name { font-size: var(--fs-xs); color: var(--blueGray-600); line-height: 1.4; }
+  .doctor-card .info-section {
+    background: var(--blueGray-50);
+    border-radius: 6px;
+    padding: 8px 12px; margin-bottom: 8px;
+  }
+  .doctor-card .info-section .sec-title {
+    display: flex; align-items: center; gap: 4px;
+    font-size: var(--fs-xs); font-weight: 700; color: var(--blueGray-700);
+    margin-bottom: 4px;
+  }
+  .doctor-card .info-row {
+    font-size: var(--fs-xs); color: var(--blueGray-700); line-height: 1.6;
+  }
+  .doctor-card .info-row strong { color: var(--black); }
+  .doctor-card .tag {
+    display: inline-block; padding: 1px 8px; border-radius: 4px;
+    background: var(--blueGray-100); color: var(--blueGray-700);
+    font-size: var(--fs-xs); font-weight: 600;
+    margin-right: 4px; margin-top: 2px;
+  }
+  .doctor-card .perf-block {
+    border-top: 1px dashed var(--blueGray-200);
+    padding-top: 8px; margin-top: 8px;
+  }
+  .doctor-card .perf-h {
+    font-size: var(--fs-xs); font-weight: 700; color: var(--blueGray-600); margin-bottom: 6px;
+  }
+  .doctor-card .perf-row {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 4px;
+  }
+  .doctor-card .perf-label { flex: 0 0 100px; font-size: var(--fs-xs); }
+  .doctor-card .perf-bar {
+    flex: 1; height: 8px; background: var(--blueGray-100);
+    border-radius: 4px; overflow: hidden;
+  }
+  .doctor-card .perf-bar .fill { height: 100%; background: var(--blue-500); }
+  .doctor-card .perf-pct {
+    flex: 0 0 36px; font-size: var(--fs-xs); text-align: right; font-weight: 700;
+  }
+  .doctor-card .card-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .doctor-card .card-actions .btn {
+    flex: 1; padding: 8px 0; border-radius: 6px;
+    font-size: var(--fs-sm);
+    border: 1px solid var(--blue-500); background: #fff; color: var(--blue-500); font-weight: 700;
+    text-align: center;
+  }
+  .doctor-card .card-actions .btn.primary { background: var(--blue-500); color: #fff; }
+
+  /* ========================================
+     Simulator
+     ======================================== */
+  .sim-info-banner {
+    background: var(--blue-50); color: var(--blue-500);
+    border-radius: 6px; padding: 10px 16px;
+    font-size: var(--fs-sm); font-weight: 700; margin-bottom: 16px;
+  }
+  .sim-wrap { display: grid; grid-template-columns: 240px 1fr; gap: 16px; }
+  .sim-input-card {
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px; padding: 14px;
+    font-size: var(--fs-sm);
+  }
+  .sim-pattern-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 6px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--blueGray-100);
+    margin-bottom: 12px;
+  }
+  .sim-pattern-select {
+    border: 1px solid var(--blueGray-200);
+    border-radius: 6px; padding: 4px 10px;
+    font-size: var(--fs-sm); font-weight: 700; background: #fff;
+  }
+  .sim-save-btn {
+    background: var(--blueGray-100); color: var(--blueGray-500);
+    padding: 4px 10px; border-radius: 6px;
+    font-size: var(--fs-xs); font-weight: 700;
+  }
+  .sim-field { margin-bottom: 10px; }
+  .sim-field-label { font-size: var(--fs-xs); color: var(--blueGray-600); margin-bottom: 4px; font-weight: 700; }
+  .sim-field-input {
+    display: flex; align-items: center; gap: 4px;
+    padding: 8px 12px;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 6px;
+    font-size: var(--fs-md); font-weight: 700;
+  }
+  .sim-field-input .num { flex: 1; }
+  .sim-field-input .unit { color: var(--blueGray-500); font-weight: 600; font-size: var(--fs-sm); }
+  .sim-toggle {
+    display: flex; align-items: center; gap: 4px;
+    color: var(--blue-500); font-size: var(--fs-sm); font-weight: 700;
+    padding-top: 8px; border-top: 1px solid var(--blueGray-100);
+  }
+  .sim-result-area { display: flex; flex-direction: column; gap: 12px; }
+  .sim-result-card {
+    background: #fff; border: 1px solid var(--blueGray-200);
+    border-radius: 8px; padding: 16px 20px;
+  }
+  .sim-result-h {
+    font-size: var(--fs-sm); color: var(--blueGray-600); font-weight: 700; margin-bottom: 6px;
+  }
+  .sim-result-v {
+    font-size: 32px; font-weight: 800; color: var(--blue-500); line-height: 1; letter-spacing: -0.02em;
+  }
+  .sim-result-v .yen { font-size: 16px; margin-left: 2px; }
+  .sim-result-delta {
+    font-size: var(--fs-sm); color: var(--blueGray-600); margin-top: 8px;
+  }
+  .sim-result-delta .delta-num { color: var(--green-500); font-weight: 700; }
+  .sim-breakdown-card {
+    background: #fff; border: 1px solid var(--blueGray-200);
+    border-radius: 8px; padding: 14px 20px;
+  }
+  .sim-breakdown-h {
+    font-size: var(--fs-sm); color: var(--blueGray-600); font-weight: 700; margin-bottom: 10px;
+  }
+  .sim-breakdown-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--blueGray-100);
+  }
+  .sim-breakdown-row:last-child { border-bottom: none; }
+  .sim-br-title {
+    font-size: var(--fs-md); font-weight: 700;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .sim-br-title .badge {
+    background: var(--blue-50); color: var(--blue-500);
+    padding: 1px 6px; border-radius: 3px; font-size: var(--fs-xs);
+  }
+  .sim-br-formula { font-size: var(--fs-xs); color: var(--blueGray-500); }
+  .sim-br-right { text-align: right; }
+  .sim-br-amount {
+    font-size: var(--fs-md); font-weight: 700; color: var(--blue-500);
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .sim-br-amount .dp-tag {
+    background: var(--blue-500); color: #fff;
+    font-size: var(--fs-xxs);
+    padding: 1px 6px; border-radius: 3px;
+  }
+  .sim-br-delta { font-size: var(--fs-xs); color: var(--green-500); margin-top: 2px; }
+
+  /* ========================================
+     Job analysis (template ベース)
+     ======================================== */
+  .job-tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--blueGray-200);
+    margin-bottom: 20px;
+  }
+  .job-tabs .tab {
+    padding: 10px 20px;
+    font-size: var(--fs-md);
+    font-weight: 700;
+    color: var(--blueGray-500);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    cursor: default;
+  }
+  .job-tabs .tab.active {
+    color: var(--blue-500);
+    border-bottom-color: var(--blue-500);
+  }
+  .job-section {
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px;
+    padding: 24px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .job-section-title {
+    font-size: var(--fs-lg); font-weight: 700; color: var(--black);
+  }
+  .job-section-sub {
+    font-size: var(--fs-sm); color: var(--blueGray-600); margin-top: 4px;
+  }
+  .wt-tabs-wrap { display: flex; align-items: center; gap: 12px; }
+  .wt-tabs-label {
+    font-size: var(--fs-xs); font-weight: 700; color: var(--blueGray-600);
+  }
+  .wt-tabs {
+    display: inline-flex;
+    border: 1px solid var(--blueGray-300);
+    border-radius: 8px; overflow: hidden;
+    background: #fff;
+  }
+  .wt-tabs button {
+    padding: 7px 18px; border: none; background: #fff;
+    font-size: var(--fs-md); font-weight: 700;
+    color: var(--blueGray-600);
+    border-right: 1px solid var(--blueGray-200);
+    cursor: pointer;
+  }
+  .wt-tabs button:last-child { border-right: none; }
+  .wt-tabs button:hover { background: var(--blueGray-50); }
+  .wt-tabs button.active { background: var(--blue-500); color: #fff; }
+  .wt-rec {
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 14px 18px;
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px;
+  }
+  .wt-rec-row {
+    display: flex; gap: 12px;
+    font-size: var(--fs-sm); line-height: 1.6;
+    align-items: baseline;
+  }
+  .wt-rec-label {
+    flex-shrink: 0; width: 96px;
+    font-size: var(--fs-xs); font-weight: 700;
+    padding: 2px 8px; border-radius: 4px;
+    text-align: center;
+  }
+  .wt-rec-label.good { background: var(--green-100); color: var(--green-500); }
+  .wt-rec-label.warn { background: var(--red-100);   color: var(--red-500); }
+  .wt-rec-text strong { color: var(--blue-500); }
+  .filter-charts {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;
+  }
+  .filter-chart {
+    padding: 14px;
+    border: 1px solid var(--blueGray-100);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .filter-chart-title {
+    font-size: var(--fs-sm); font-weight: 700;
+    color: var(--blueGray-600); margin-bottom: 10px;
+  }
+  .chart-canvas-wrap { position: relative; height: 220px; }
+  .job-footnote { font-size: var(--fs-xs); color: var(--blueGray-500); }
+
+  /* ========================================
+     Dashboard
+     ======================================== */
+  .kpi-row { display: flex; gap: 12px; margin-bottom: 14px; }
+  .kpi-card {
+    flex: 1; background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px; padding: 14px 18px;
+  }
+  .kpi-label { font-size: var(--fs-xs); color: var(--blueGray-500); font-weight: 600; margin-bottom: 4px; }
+  .kpi-value { display: flex; align-items: baseline; gap: 4px; }
+  .kpi-num { font-size: 24px; font-weight: 700; color: var(--blueGray-800); line-height: 1; }
+  .kpi-unit { font-size: var(--fs-sm); color: var(--blueGray-500); }
+  .kpi-sep { font-size: var(--fs-md); color: var(--blueGray-300); margin: 0 2px; }
+  .ai-fab {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, #074DE5, #5A8BFC);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 99px;
+    font-size: var(--fs-sm); font-weight: 700;
+    box-shadow: 0 6px 14px rgba(7,77,229,0.3);
+  }
+
+  /* ========================================
+     Hospital images (better!)
+     ======================================== */
+  .img-page-desc {
+    font-size: var(--fs-sm); color: var(--blueGray-700);
+    margin-bottom: 12px; line-height: 1.7;
+  }
+  .img-spec-row {
+    background: var(--blueGray-50); border-radius: 6px;
+    padding: 10px 16px;
+    font-size: var(--fs-xs); color: var(--blueGray-700);
+    margin-bottom: 16px;
+    display: flex; flex-wrap: wrap; gap: 24px;
+  }
+  .img-toolbar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px;
+  }
+  .img-toolbar .img-title { font-size: var(--fs-md); font-weight: 700; }
+  .img-toolbar .img-title-sub { font-size: var(--fs-xs); color: var(--blueGray-500); margin-top: 2px; }
+  .img-toolbar .upload-btn {
+    background: var(--blue-500); color: #fff;
+    padding: 8px 16px; border-radius: 6px;
+    font-size: var(--fs-sm); font-weight: 700;
+  }
+  .img-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  }
+  .img-card {
+    border-radius: 8px;
+    border: 1px solid var(--blueGray-200);
+    overflow: hidden;
+    background: #fff;
+  }
+  .img-thumb {
+    aspect-ratio: 4/3;
+    position: relative;
+    background: linear-gradient(135deg, #E5EAF3 0%, #CDD5E3 100%);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .img-thumb svg {
+    width: 38%; height: 38%;
+    color: rgba(255,255,255,0.85);
+  }
+  .img-thumb .order-badge {
+    position: absolute; top: 8px; left: 8px;
+    background: rgba(0,0,0,0.6); color: #fff;
+    font-size: var(--fs-xxs); padding: 3px 8px;
+    border-radius: 4px; font-weight: 700;
+  }
+  .img-thumb .ratio-badge {
+    position: absolute; top: 8px; right: 8px;
+    background: rgba(0,0,0,0.6); color: #fff;
+    font-size: var(--fs-xxs); padding: 3px 8px;
+    border-radius: 4px; font-weight: 700;
+  }
+  .img-thumb.warn .ratio-badge { background: #F59E0B; color: #fff; }
+  /* Photographic-looking gradients */
+  .img-thumb.lobby { background: linear-gradient(160deg, #E8DCC1 0%, #C8A872 60%, #8C6F3F 100%); }
+  .img-thumb.lobby svg { color: rgba(255,255,255,0.6); }
+  .img-thumb.duty   { background: linear-gradient(160deg, #C1D5E8 0%, #6FA5C8 60%, #3F6F8C 100%); }
+  .img-thumb.duty svg { color: rgba(255,255,255,0.6); }
+  .img-thumb.gear   { background: linear-gradient(160deg, #D8DCE5 0%, #A4ACB8 60%, #6E7785 100%); }
+  .img-thumb.gear svg { color: rgba(255,255,255,0.6); }
+  .img-thumb.office { background: linear-gradient(160deg, #E5DCED 0%, #B8A4C9 60%, #7F689B 100%); }
+  .img-thumb.office svg { color: rgba(255,255,255,0.6); }
+  .img-thumb.kitchen{ background: linear-gradient(160deg, #DEEBDB 0%, #9DC8A1 60%, #5C8961 100%); }
+  .img-thumb.kitchen svg { color: rgba(255,255,255,0.6); }
+  .img-thumb.preview {
+    background: var(--blueGray-50);
+    border-bottom: 1px solid var(--blueGray-100);
+  }
+  .img-thumb.preview svg { color: var(--blueGray-300); }
+  .img-thumb.preview-yellow {
+    background: linear-gradient(135deg, #FEF8E1 0%, #FCE5B5 100%);
+  }
+  .img-thumb.preview-yellow svg { color: #C4A463; }
+  .img-meta {
+    padding: 6px 10px;
+    font-size: var(--fs-xxs);
+    color: var(--blueGray-500);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  /* ========================================
+     Summary
+     ======================================== */
+  .summary-flow {
+    background: var(--blueGray-50);
+    border: 1px solid var(--blueGray-100);
+    border-radius: 8px;
+    padding: 20px 28px;
+    margin: 20px 0;
+  }
+  .summary-flow ol { margin: 0; padding-left: 24px; font-size: var(--fs-md); }
+  .summary-flow li { margin-bottom: 8px; }
+  .closing-callout {
+    background: var(--blue-50);
+    border-left: 3px solid var(--blue-500);
+    padding: 14px 18px;
+    border-radius: 0 6px 6px 0;
+    font-size: var(--fs-md);
+  }
+  .placeholder-screen {
+    background: repeating-linear-gradient(45deg, var(--blueGray-50) 0, var(--blueGray-50) 10px, #ECF0F6 10px, #ECF0F6 20px);
+    border: 2px dashed var(--blueGray-200);
+    border-radius: 8px;
+    padding: 28px 24px;
+    text-align: center;
+    color: var(--blueGray-500);
+    font-size: var(--fs-sm);
+  }
+  .placeholder-screen .ph-h {
+    font-weight: 700; color: var(--blueGray-700); font-size: var(--fs-md); margin-bottom: 4px;
+  }
+  .missing-list {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    border-radius: 8px;
+    padding: 18px 24px; margin: 24px 0;
+  }
+  .missing-list h3 { color: var(--orange-700); margin-bottom: 8px; font-size: var(--fs-lg); }
+  .missing-list p { font-size: var(--fs-sm); margin-bottom: 12px; color: var(--blueGray-700); }
+  .missing-list ul { margin: 0; padding-left: 22px; font-size: var(--fs-sm); }
+  .missing-list li { margin-bottom: 4px; color: var(--blueGray-700); }
+  footer.doc-footer {
+    margin-top: 56px; padding-top: 20px;
+    border-top: 1px solid var(--blueGray-200);
+    color: var(--blueGray-500); font-size: var(--fs-xs);
+  }
+
+  /* ========================================
+     Generic header banners (求人管理画面用)
+     ======================================== */
+  .listing-cta-banner {
+    display: flex; align-items: center; gap: 14px;
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+  }
+  .listing-cta-banner .cal-icon {
+    background: var(--blue-50); color: var(--blue-500);
+    padding: 8px 10px; border-radius: 6px;
+    font-size: var(--fs-xs); font-weight: 700;
+    text-align: center; line-height: 1.3;
+    min-width: 64px;
+  }
+  .listing-cta-banner .cta-body { flex: 1; }
+  .listing-cta-banner .cta-title { font-size: var(--fs-md); font-weight: 700; }
+  .listing-cta-banner .cta-sub { font-size: var(--fs-sm); color: var(--blueGray-500); margin-top: 2px; }
+  .listing-cta-banner .cta-btn {
+    background: var(--blue-500); color: #fff;
+    padding: 8px 16px; border-radius: 6px;
+    font-size: var(--fs-sm); font-weight: 700;
+  }
+  .campaign-banner {
+    display: flex; align-items: center; gap: 12px;
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px;
+    padding: 10px 16px; margin-bottom: 12px;
+    font-size: var(--fs-sm);
+  }
+  .campaign-banner .cb-badge {
+    background: var(--blue-500); color: #fff;
+    padding: 5px 12px; border-radius: 99px;
+    font-size: var(--fs-xs); font-weight: 700;
+  }
+  .campaign-banner .cb-em { color: var(--blue-500); font-weight: 700; }
+  .campaign-banner .cb-link {
+    margin-left: auto; color: var(--blueGray-500); font-size: var(--fs-xs);
+  }
+  .stats-row {
+    display: flex; align-items: center; gap: 20px;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px;
+    padding: 10px 16px; font-size: var(--fs-sm);
+    margin-bottom: 14px;
+  }
+  .stats-row .stat-h { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
+  .stats-row .stat-subtle { color: var(--blueGray-400); font-size: var(--fs-xs); }
+  .stats-row .stat { display: flex; align-items: center; gap: 5px; }
+  .stats-row .stat .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .stats-row .stat .dot.y { background: var(--yellow-500); }
+  .stats-row .stat .dot.b { background: var(--blue-300); }
+  .stats-row .stat .dot.p { background: var(--blue-500); }
+  .stats-row .stat strong { color: var(--black); margin: 0 2px; }
+  .stats-row .stat-graph-link {
+    margin-left: auto; color: var(--blueGray-500); font-size: var(--fs-xs);
+  }
+  .listing-tabs {
+    display: flex; gap: 24px;
+    border-bottom: 1px solid var(--blueGray-200);
+    padding-bottom: 4px; margin-bottom: 12px;
+  }
+  .listing-tabs .t {
+    font-size: var(--fs-sm); color: var(--blueGray-500); padding-bottom: 6px;
+  }
+  .listing-tabs .t.active {
+    color: var(--blue-500); font-weight: 700;
+    border-bottom: 2px solid var(--blue-500);
+  }
+  .empty-state {
+    text-align: center; color: var(--blueGray-400);
+    padding: 32px 16px; font-size: var(--fs-sm);
+  }
+
+  /* ========================================
+     Hospital-side Doctor Profile (listing-detail.html 準拠)
+     ======================================== */
+  .hsp-doctor-card {
+    padding: 20px 24px;
+    background: #fff;
+  }
+  .hsp-doctor-header {
+    display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px;
+  }
+  .hsp-doctor-name {
+    font-size: var(--fs-lg); font-weight: 700; color: var(--black);
+  }
+  .hsp-doctor-name .kana {
+    color: var(--blueGray-600); font-weight: 500;
+    font-size: var(--fs-sm); margin-left: 6px;
+  }
+  .hsp-body {
+    display: grid; grid-template-columns: 132px 1fr;
+    row-gap: 10px; column-gap: 16px;
+    align-items: start;
+  }
+  .hsp-body .label {
+    color: var(--blueGray-600); font-size: var(--fs-md);
+    font-weight: 500; padding-top: 2px;
+  }
+  .hsp-body .value {
+    color: var(--black); font-size: var(--fs-md);
+  }
+  .hsp-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .hsp-dept-tag {
+    background: var(--blueGray-100); color: var(--blueGray-700);
+    padding: 2px 10px; border-radius: 4px;
+    font-size: var(--fs-sm); font-weight: 600;
+  }
+  .stat-inline { color: var(--black); font-size: var(--fs-md); line-height: 1.7; }
+  .stat-inline .num { font-weight: 700; color: var(--blueGray-800); }
+  .stat-inline .dot { color: var(--blueGray-300); margin: 0 10px; }
+  .hsp-bar-grid {
+    display: grid; grid-template-columns: 132px 1fr 44px;
+    row-gap: 8px; column-gap: 12px; align-items: center;
+    max-width: 520px; padding-top: 2px;
+  }
+  .hsp-bar-label { color: var(--blueGray-600); font-size: var(--fs-sm); }
+  .hsp-bar-track {
+    position: relative; height: 6px;
+    background: var(--blueGray-100);
+    border-radius: 9999px; overflow: hidden;
+  }
+  .hsp-bar-fill {
+    position: absolute; top: 0; bottom: 0; left: 0;
+    background: var(--blue-200);
+    border-radius: 9999px;
+  }
+  .hsp-bar-value {
+    text-align: right; font-size: var(--fs-sm);
+    font-weight: 700; color: var(--blueGray-800);
+  }
+  .hsp-action-row {
+    display: flex; justify-content: flex-end; gap: 8px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--blueGray-100);
+  }
+  .hsp-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 6px;
+    font-size: var(--fs-sm); font-weight: 700;
+    border: 1px solid var(--blueGray-300);
+    background: #fff; color: var(--blueGray-700);
+  }
+  .hsp-btn.primary {
+    background: var(--blue-500); color: #fff;
+    border-color: var(--blue-500);
+  }
+
+  /* ========================================
+     Phone — 病院の様子 carousel
+     ======================================== */
+  .phone-carousel-h {
+    font-size: 18px; font-weight: 700;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--blueGray-100);
+  }
+  .phone-carousel {
+    position: relative;
+    aspect-ratio: 4/3;
+    background: linear-gradient(to bottom, #88B5DA 0%, #D8E5F0 50%, #B5C9A8 50%, #8FAD7F 100%);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .phone-carousel .carousel-building {
+    position: absolute;
+    left: 22%; top: 18%; width: 56%; height: 64%;
+    background: linear-gradient(to bottom, #fafafa 0%, #f0f0f0 100%);
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .phone-carousel .carousel-building::before {
+    content: '';
+    position: absolute; inset: 8% 8% 24% 8%;
+    background:
+      repeating-linear-gradient(0deg, rgba(180,200,220,0.4) 0px, rgba(180,200,220,0.4) 4px, transparent 4px, transparent 8px),
+      repeating-linear-gradient(90deg, rgba(180,200,220,0.4) 0px, rgba(180,200,220,0.4) 4px, transparent 4px, transparent 8px);
+  }
+  .phone-carousel .carousel-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(180,190,200,0.7); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700;
+  }
+  .phone-carousel .carousel-arrow.l { left: 8px; }
+  .phone-carousel .carousel-arrow.r { right: 8px; }
+  .phone-carousel .carousel-indicator {
+    position: absolute; bottom: 8px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.5); color: #fff;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: var(--fs-xs); font-weight: 700;
+  }
+  .phone-access-row {
+    display: flex; gap: 10px; align-items: flex-start;
+    margin-bottom: 12px;
+    font-size: var(--fs-sm);
+  }
+  .phone-access-row .ic {
+    width: 18px; height: 18px;
+    flex-shrink: 0; color: var(--blueGray-500);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .phone-access-row .body { flex: 1; }
+  .phone-access-row .h {
+    font-weight: 700; margin-bottom: 2px;
+  }
+  .phone-access-row .v { color: var(--blueGray-700); }
+
+  /* ========================================
+     Gmail-style email mock
+     ======================================== */
+  .email-frame {
+    border: 1px solid var(--blueGray-200);
+    border-radius: 10px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    margin-bottom: 8px;
+  }
+  .email-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--blueGray-100);
+  }
+  .email-subject {
+    font-size: var(--fs-lg); font-weight: 600; margin-bottom: 8px;
+    line-height: 1.5; color: var(--black);
+    display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
+  }
+  .email-subject .highlight {
+    background: #FFF3C7; padding: 0 2px;
+  }
+  .email-subject .ext-tag {
+    background: #FFE4A8; color: #92400E;
+    padding: 2px 8px; border-radius: 4px;
+    font-size: var(--fs-xs); font-weight: 700; letter-spacing: 0.04em;
+  }
+  .email-subject .auto-tag {
+    background: var(--blueGray-100); color: var(--blueGray-600);
+    padding: 2px 8px; border-radius: 4px;
+    font-size: var(--fs-xs); font-weight: 600;
+    display: inline-flex; align-items: center; gap: 4px;
+  }
+  .email-subject .auto-tag::after { content: '×'; color: var(--blueGray-400); }
+  .email-meta {
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+  .email-meta .avatar {
+    width: 32px; height: 32px;
+    background: var(--green-700); color: #fff;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: var(--fs-md); font-weight: 700;
+    flex-shrink: 0;
+  }
+  .email-meta .meta-body { font-size: var(--fs-sm); color: var(--blueGray-700); flex: 1; }
+  .email-meta .meta-from { font-weight: 700; color: var(--black); margin-bottom: 2px; }
+  .email-hubspot {
+    background: #FF7A59; color: #fff;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 4px;
+    font-size: var(--fs-xs); font-weight: 700;
+    margin: 8px 0 0;
+  }
+  .email-hubspot::before {
+    content: ''; display: inline-block;
+    width: 12px; height: 12px;
+    background: #fff; border-radius: 2px;
+  }
+  .email-body {
+    padding: 20px;
+    font-size: var(--fs-md);
+    line-height: 1.85;
+    color: var(--black);
+    white-space: pre-wrap;
+  }
+  .email-body .divider { color: var(--blueGray-400); }
+  .email-body .comment {
+    background: var(--blueGray-50);
+    padding: 8px 12px; border-radius: 4px;
+    margin: 4px 0;
+    border-left: 3px solid var(--blue-300);
+  }
+  .email-body a { color: var(--blue-500); text-decoration: underline; }
+  .email-body .footer-block {
+    color: var(--blueGray-500); font-size: var(--fs-sm);
+    border-top: 1px solid var(--blueGray-100); padding-top: 12px; margin-top: 16px;
+  }
+
+  /* ========================================
+     Scatter chart container (適正給与分析)
+     ======================================== */
+  .salary-analysis {
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 8px;
+    padding: 16px 20px 12px;
+  }
+  .salary-analysis .sa-h {
+    display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;
+  }
+  .salary-analysis .sa-title { font-size: var(--fs-md); font-weight: 700; }
+  .salary-analysis .sa-beta {
+    background: var(--blue-50); color: var(--blue-500);
+    padding: 1px 8px; border-radius: 4px;
+    font-size: var(--fs-xs); font-weight: 700;
+  }
+  .salary-analysis-wrap {
+    display: grid; grid-template-columns: 200px 1fr; gap: 16px;
+    align-items: start;
+  }
+  .salary-filters .field { margin-bottom: 14px; }
+  .salary-filters .field-label {
+    font-size: var(--fs-sm); font-weight: 700;
+    margin-bottom: 6px; color: var(--black);
+  }
+  .salary-filters .field-input {
+    padding: 8px 12px;
+    border: 1px solid var(--blueGray-200);
+    border-radius: 6px;
+    font-size: var(--fs-sm); color: var(--blueGray-400);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .salary-chart-wrap { position: relative; height: 320px; }
+  .salary-footnote {
+    font-size: var(--fs-xs); color: var(--blueGray-500);
+    margin-top: 8px; line-height: 1.6;
+  }
+
+  /* Salary panel sub-tabs */
+  .salary-subtab { display: none; }
+  .salary-subtab.active { display: block; }
+
+  /* ========================================
+     Top-level Main Tabs (Section navigation)
+     ======================================== */
+  .main-tabs-wrap {
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 50;
+    margin: 0 -40px 32px;
+    padding: 12px 40px;
+    border-bottom: 1px solid var(--blueGray-200);
+  }
+  .main-tabs {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+  }
+  .main-tab {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px;
+    font-size: 14px; font-weight: 700;
+    color: var(--blueGray-500);
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .main-tab .tab-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--blueGray-100); color: var(--blueGray-600);
+    font-size: 11px; font-weight: 700;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .main-tab .feature-count {
+    background: var(--blue-100); color: var(--blue-500);
+    padding: 2px 8px; border-radius: 99px;
+    font-size: 10px; font-weight: 700;
+  }
+  .main-tab:hover:not(.active) {
+    background: var(--blueGray-50);
+    color: var(--blueGray-800);
+  }
+  .main-tab.active {
+    background: var(--blue-500); color: #fff;
+    border-color: var(--blue-500);
+  }
+  .main-tab.active .tab-num {
+    background: rgba(255,255,255,0.25); color: #fff;
+  }
+  .main-tab.active .feature-count {
+    background: rgba(255,255,255,0.25); color: #fff;
+  }
+  .main-tab-panel { display: none; }
+  .main-tab-panel.active {
+    display: block;
+    animation: fadeIn 0.25s ease-out;
+  }
+
+  /* ========================================
+     Stronger sidebar hint (Section 3)
+     ======================================== */
+  .fi-hint-strong {
+    background: linear-gradient(90deg, #FEF3C7 0%, #FFF8E1 100%);
+    border: 2px solid #F59E0B;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+    font-size: 15px;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.12);
+  }
+  .fi-hint-strong .big-arrow {
+    font-size: 28px;
+    animation: bounceX 1.2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .fi-hint-strong .hint-text {
+    font-weight: 700; color: #92400E;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .fi-hint-strong .hint-text .em {
+    color: var(--blue-500);
+  }
+  .fi-hint-strong .pulse-dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--blue-500);
+    animation: pulse 1.5s ease-in-out infinite;
+    box-shadow: 0 0 0 0 rgba(7, 77, 229, 0.5);
+  }
+  @keyframes bounceX {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(8px); }
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(7, 77, 229, 0.5); }
+    70% { box-shadow: 0 0 0 12px rgba(7, 77, 229, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(7, 77, 229, 0); }
+  }
+
+  /* Make inactive sidebar items more obviously clickable */
+  .dp-nav-item[data-target]:not(.active) {
+    position: relative;
+  }
+  .dp-nav-item[data-target]:not(.active)::after {
+    content: '';
+    position: absolute;
+    right: 8px; top: 50%;
+    transform: translateY(-50%);
+    width: 6px; height: 6px;
+    border-right: 2px solid var(--blue-300);
+    border-bottom: 2px solid var(--blue-300);
+    transform: translateY(-50%) rotate(-45deg);
+    opacity: 0.6;
+  }
+  .dp-nav-item[data-target]:not(.active):hover {
+    background: var(--blue-50);
+    transform: translateX(2px);
+  }
+  .dp-nav-item[data-target]:not(.active):hover::after {
+    opacity: 1;
+  }
+
+  /* ========================================
+     Modal overlay (unanswered surveys etc.)
+     ======================================== */
+  .modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(45, 49, 64, 0.4);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10;
+    border-radius: 0;
+    pointer-events: none;
+  }
+  .modal-card {
+    width: 480px;
+    max-width: calc(100% - 32px);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+    overflow: hidden;
+    pointer-events: auto;
+  }
+  .modal-header {
+    padding: 18px 20px 12px;
+    border-bottom: 1px solid var(--blueGray-100);
+    position: relative;
+  }
+  .modal-header .modal-title {
+    font-size: var(--fs-lg); font-weight: 700;
+    color: var(--black);
+  }
+  .modal-header .modal-sub {
+    font-size: var(--fs-xs); color: var(--blueGray-500); margin-top: 4px;
+  }
+  .modal-header .modal-close {
+    position: absolute; top: 14px; right: 14px;
+    width: 24px; height: 24px;
+    border: none; background: transparent;
+    font-size: 18px; color: var(--blueGray-500); cursor: pointer;
+    line-height: 1;
+  }
+  .modal-body {
+    max-height: 360px;
+    overflow-y: auto;
+    padding: 8px 16px 16px;
+  }
+  .survey-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 4px;
+    border-bottom: 1px solid var(--blueGray-100);
+    gap: 12px;
+  }
+  .survey-item:last-child { border-bottom: none; }
+  .survey-item .doctor-info {
+    flex: 1; min-width: 0;
+  }
+  .survey-item .doctor-name {
+    font-size: var(--fs-md); font-weight: 700; color: var(--black);
+    margin-bottom: 4px;
+  }
+  .survey-item .work-time {
+    font-size: var(--fs-xs); color: var(--blueGray-500);
+  }
+  .survey-item .answer-btn {
+    background: var(--blue-500); color: #fff;
+    padding: 7px 16px; border-radius: 6px;
+    font-size: var(--fs-sm); font-weight: 700;
+    border: none; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 4px;
+    white-space: nowrap;
+  }
+  .modal-anchor-note {
+    margin-top: 12px;
+    background: var(--blue-50);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: var(--fs-xs);
+    color: var(--blueGray-700);
+    display: flex; gap: 6px; align-items: center;
+  }
+
+  /* ========================================
+     Pitch (punchy one-liner) + collapsible details
+     ======================================== */
+  .pitch {
+    display: flex; align-items: center; gap: 12px;
+    background: #fff;
+    border: 1px solid var(--blueGray-200);
+    border-left: 4px solid var(--blue-500);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .pitch .pitch-icon {
+    width: 32px; height: 32px;
+    background: var(--blue-50); color: var(--blue-500);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .pitch .pitch-text {
+    flex: 1;
+    font-size: 15px; font-weight: 600;
+    color: var(--black);
+    line-height: 1.55;
+  }
+  .pitch .pitch-text strong {
+    color: var(--blue-500); font-weight: 800;
+  }
+  .feature-detail {
+    margin-top: 12px;
+    border: 1px solid var(--blueGray-100);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .feature-detail summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 8px 14px;
+    font-size: var(--fs-sm);
+    font-weight: 700;
+    color: var(--blueGray-600);
+    background: var(--blueGray-50);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .feature-detail summary::after {
+    content: '▾'; color: var(--blueGray-400);
+    transition: transform 0.15s;
+  }
+  .feature-detail[open] summary::after { transform: rotate(180deg); }
+  .feature-detail summary::-webkit-details-marker { display: none; }
+  .feature-detail .detail-body {
+    padding: 12px 16px;
+    font-size: var(--fs-sm);
+    line-height: 1.7;
+    color: var(--blueGray-700);
+    background: #fff;
+  }
+  .feature-detail .detail-body strong { color: var(--black); }
+  .feature-detail .detail-row {
+    display: flex; gap: 12px; margin-bottom: 8px;
+  }
+  .feature-detail .detail-row:last-child { margin-bottom: 0; }
+  .feature-detail .detail-label {
+    flex-shrink: 0; width: 64px;
+    font-size: var(--fs-xs); font-weight: 700;
+    color: var(--blueGray-500);
+    padding-top: 2px;
+  }
+  .feature-detail .detail-row.problem .detail-label { color: #B45309; }
+  .feature-detail .detail-row.solve .detail-label { color: var(--blue-500); }
+  .feature-detail .detail-content { flex: 1; }
+
+  /* ========================================
+     Interactive Feature Shell (Section 3)
+     ======================================== */
+  .fi-meta-area {
+    margin-bottom: 16px;
+  }
+  .fi-hint {
+    background: var(--blue-50);
+    border-left: 3px solid var(--blue-500);
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: var(--fs-sm);
+    color: var(--blueGray-700);
+    margin-bottom: 20px;
+    display: flex; gap: 6px; align-items: center;
+  }
+  .fi-hint .ic {
+    color: var(--blue-500);
+    font-weight: 700;
+  }
+  .feature-panel { display: none; }
+  .feature-panel.active { display: block; animation: fadeIn 0.2s ease-out; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .dp-nav-item[data-target] {
+    cursor: pointer;
+    transition: background 0.12s, color 0.12s;
+  }
+  .dp-nav-item[data-target]:not(.active):hover {
+    background: var(--blueGray-50);
+  }
+  .new-mini {
+    background: var(--green-100); color: var(--green-700);
+    padding: 1px 5px; border-radius: 3px;
+    font-size: 9px; font-weight: 700;
+    margin-left: 4px;
+    letter-spacing: 0.04em;
+  }
+  .dp-nav-item.active .new-mini {
+    background: rgba(255,255,255,0.25); color: #fff;
+  }
+  .cross-ref-panel {
+    padding: 40px 28px;
+    text-align: center;
+    color: var(--blueGray-600);
+  }
+  .cross-ref-panel .crh {
+    font-size: var(--fs-lg); font-weight: 700;
+    color: var(--black); margin-bottom: 8px;
+  }
+  .cross-ref-panel .crd {
+    font-size: var(--fs-sm); color: var(--blueGray-500); margin-bottom: 16px;
+  }
+  .cross-ref-panel a.cr-btn {
+    display: inline-block;
+    background: var(--blue-500); color: #fff;
+    padding: 8px 18px; border-radius: 6px;
+    font-size: var(--fs-sm); font-weight: 700;
+    text-decoration: none;
+  }
+
+  @media print {
+    body { background: white; font-size: 10pt; }
+    .container { box-shadow: none; max-width: 100%; padding: 0 16pt; }
+    .browser-frame, .phone-frame, .feature, .ui-pair, .email-frame { page-break-inside: avoid; }
+    .section-band, .feature-head { page-break-after: avoid; }
+    .feature-panel { display: block !important; page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== COVER ========== -->
+<section class="cover">
+  <div class="cover-meta">
+    <span class="eyebrow">Internal Use Only / 営業・CS 向け</span>
+    <span class="cover-date">2026-05-14</span>
+  </div>
+  <h1>Dr.'s Prime Work プロダクトアップデート総覧<span class="sub">病院対応で「何が変わったか」を画面で見せる資料</span></h1>
+  <div class="cover-intent">
+    アポの場で開いて、画面を一緒に見ながら話す資料。各機能 <strong>一言の刺さるポイント＋実画面</strong> で構成。詳細が必要な時は「詳細 ▾」で展開できる。
+  </div>
+</section>
+
+<!-- ========== Main Tabs ========== -->
+<div class="main-tabs-wrap">
+  <nav class="main-tabs">
+    <a class="main-tab active" data-tab="t1" onclick="switchMainTab(this); return false;" href="#"><span class="tab-num">1</span>相互評価の見える化</a>
+    <a class="main-tab" data-tab="t2" onclick="switchMainTab(this); return false;" href="#"><span class="tab-num">2</span>応募ハードルを下げる</a>
+    <a class="main-tab" data-tab="t3" onclick="switchMainTab(this); return false;" href="#"><span class="tab-num">3</span>病院機能群<span class="feature-count">9</span></a>
+    <a class="main-tab" data-tab="t4" onclick="switchMainTab(this); return false;" href="#"><span class="tab-num">4</span>まとめ</a>
+  </nav>
+</div>
+
+<!-- ========== Tab Panel 1 ==========-->
+<div class="main-tab-panel active" id="t1">
+
+<!-- ============================================================== -->
+<!-- SECTION 1 — 相互評価                                            -->
+<!-- ============================================================== -->
+<div id="s1" class="section-band">
+  <span class="num">1</span>
+  <h2>相互評価の見える化 ― 「閉じていた評価」を開く</h2>
+</div>
+
+<!-- 1-1 個別評価 -->
+<article class="feature">
+  <div class="feature-head">
+    <span class="id">1-1</span>
+    <h3>個別評価が相互で確認可能に</h3>
+  </div>
+  <div class="pitch">
+    <span class="pitch-icon">💬</span>
+    <span class="pitch-text">アンケートに書いた「ありがとう」が、<strong>医師にそのまま自動で届く</strong>。DP に仲介を頼む必要がなくなる。</span>
+  </div>
+
+  <div class="ui-label"><span class="role dual">病院 ↔ 医師</span>双方のアンケート画面に「相手に自動共有される」明示</div>
+  <div class="ui-pair">
+    <div>
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-status-bar"><span>9:41</span><span>📶 100%</span></div>
+        <div class="phone-top-bar">
+          <span class="back-arrow">‹</span>
+          <span class="title-text">勤務評価アンケート</span>
+          <span class="hamburger"><span></span><span></span><span></span></span>
+        </div>
+        <div class="phone-screen short">
+          <div class="phone-survey-q">ご勤務を通じて感じた良かった点や改善余地を、自由にご記入ください。（体制・設備・マニュアル・連携など）<span class="optional">任意</span></div>
+          <div class="phone-share-callout">
+            <span class="icon">i</span>
+            <div>本項目のご記載の内容は<span class="em">病院へ自動共有されます。</span><br><span style="color:var(--blueGray-500)">※給与・契約等のご相談は、メール等で病院担当者へ直接ご連絡ください。</span></div>
+          </div>
+          <div class="phone-survey-input">回答を入力</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="url">hospital.drsprime.com/v2/.../survey/edit</span>
+        </div>
+        <div style="padding: 28px; background:#fff;">
+          <div class="web-survey-q">4-2. 医師の勤務態度やスキルについて医師にお伝えしたいことがございましたらご記入ください。<span class="optional">任意</span></div>
+          <div class="web-share-callout">
+            <span class="icon">!</span>
+            <div><span class="em">この項目のみ、ご記載の内容は医師へ自動共有されます。</span></div>
+          </div>
+          <div class="web-survey-input">回答を入力</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <details class="feature-detail" style="margin-top: 16px;">
+    <summary>📧 医師に届く自動メールの実物を見る</summary>
+    <div class="detail-body" style="padding: 16px 0 0;">
+  <div class="email-frame">
+    <div class="email-header">
+      <div class="email-subject">
+        【ご勤務に関するご報告】柏市医療公社 柏市立柏病院様からの<span class="highlight">コメント</span>共有
+        <span class="ext-tag">External</span>
+        <span class="auto-tag">自動メール</span>
+      </div>
+      <div class="email-meta">
+        <span class="avatar">D</span>
+        <div class="meta-body">
+          <div class="meta-from">Dr.'s Prime Work</div>
+          <div>To yuki.athlete.jump.y.n、 Bcc: noti-inhouse ▾</div>
+          <span class="email-hubspot">EメールをHubSpotに記録 ▾</span>
+        </div>
+      </div>
+    </div>
+    <div class="email-body">二宮 裕樹先生
+
+お世話になっております。Dr.'s Prime Work 医師サポートチームです。
+
+このたび、先生のご勤務について、柏市医療公社 柏市立柏病院様より<span class="highlight">コメント</span>をいただきましたので、ご共有させていただきます。
+今後のご参考としてご覧いただけますと幸いです。
+
+<span class="divider">━━━━━━━━━━━━━━━</span>
+<span class="comment">いつも当院の勤務をしていただきまして誠にありがとうございます。電子カルテに「病名入力」などが必須となりましたので、引き続きよろしくお願い申し上げます。</span>
+<span class="divider">━━━━━━━━━━━━━━━</span>
+
+※病院様より頂いたアンケートを元に自動送信されており、本メールにご返信いただきましても、その内容は病院へは届きません。
+※病院様へのご連絡をされたい場合は下記URLよりご連絡くださいませ。
+<a>https://app.drsprime.com/spot/257c4d56-8e0c-4f2d-8f2b-d1dd99f55ffb/message</a>
+
+日々のご尽力に、心より感謝申し上げます。
+今後ともどうぞよろしくお願いいたします。<div class="footer-block">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+株式会社ドクターズプライム  Dr.'s Prime, Inc.
+Dr.'s Prime Work  医師サポートチーム
+
+  〒135-0064 東京都江東区青海1-1-20 ダイバーシティ東京オフィスタワー13階
+  Tel：050-1746-0417
+  Mail：<a>support.dr@drsprime.com</a>
+  営業時間：09:30〜18:30 (土日祝日を除く)
+
+医師の働き方を変える医師採用サービス
+<a>https://app.drsprime.com/</a>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div></div>
+  </div>
+    </div>
+  </details>
+
+  <div class="effect-callout" style="margin-top: 16px;">
+    <span class="head">効果</span>
+    <ul>
+      <li><strong>DP への仲介依頼が減る</strong>（病院↔医師が直接フィードバックでつながる）</li>
+      <li>「働きやすい病院に医師が集まる」「いい医師がもう一度来てくれる」サイクルの起点</li>
+    </ul>
+  </div>
+  <details class="feature-detail">
+    <summary>詳細（背景・解決の中身）</summary>
+    <div class="detail-body">
+      <div class="detail-row problem">
+        <span class="detail-label">課題</span>
+        <span class="detail-content">病院・医師の双方が勤務後にアンケートを書いていたが、内容は<strong>お互いに見えない閉じた情報</strong>。感謝・改善要望が PDCA の起点にならず、関係性が深まらなかった。</span>
+      </div>
+      <div class="detail-row solve">
+        <span class="detail-label">解決</span>
+        <span class="detail-content">アンケート内の「相手へのフィードバック欄」を両者で自動共有。病院アンケート 4-2 は<strong>医師アプリの感謝の声＋自動メール</strong>で配信、医師アンケート該当項目は<strong>病院側に直通表示</strong>。</span>
+      </div>
+    </div>
+  </details>
+</article>
+
+
+
+</div>
+
+<!-- ========== Tab Panel 2 ==========-->
+<div class="main-tab-panel" id="t2">
+
+<!-- ============================================================== -->
+<!-- SECTION 2 — 応募ハードル                                        -->
+<!-- ============================================================== -->
+<div id="s2" class="section-band">
+  <span class="num">2</span>
+  <h2>医師の応募ハードルを下げる</h2>
+</div>
+
+<article class="feature">
+  <div class="feature-head">
+    <span class="id">2-1</span>
+    <h3>病院の様子セクション（病院画像）</h3>
+  </div>
+
+  <div class="pitch">
+    <span class="pitch-icon">🏥</span>
+    <span class="pitch-text">応募前に <strong>病院の中が見える</strong>。「受けたら断れない求人」の心理ハードルがぐっと下がる。</span>
+  </div>
+
+  <div class="ui-label"><span class="role hospital">病院側</span>病院画像アップロード画面（実画面再現）</div>
+
+  <div class="browser-frame">
+    <div class="browser-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="url">hospital.drsprime.com/v2/.../images</span>
+    </div>
+    <div class="app-shell">
+      <aside class="dp-sidebar">
+        <div class="dp-sidebar-top">
+          <div class="dp-logo">Dr.'s Prime<span class="work">Work</span></div>
+          <nav class="dp-nav">
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="9" r="1.5" fill="currentColor"/><circle cx="12" cy="9" r="1.5" fill="currentColor"/><circle cx="16" cy="9" r="1.5" fill="currentColor"/><circle cx="8" cy="13" r="1.5" fill="currentColor"/><circle cx="12" cy="13" r="1.5" fill="currentColor"/><circle cx="16" cy="13" r="1.5" fill="currentColor"/></svg>求人管理</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><polyline points="7 12 13 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><polyline points="11 7 17 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><polyline points="7 17 13 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>スカウト</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8" stroke="currentColor" stroke-width="2"/></svg>勤務医師の声</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2"/></svg>医師別サマリー</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="14" width="4" height="8" rx="1" fill="currentColor"/><rect x="10" y="8" width="4" height="14" rx="1" fill="currentColor"/><rect x="17" y="3" width="4" height="19" rx="1" fill="currentColor"/></svg>ダッシュボード</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/></svg>適正給与分析</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="18" rx="8" ry="3" stroke="currentColor" stroke-width="2"/><ellipse cx="12" cy="12" rx="8" ry="3" stroke="currentColor" stroke-width="2"/><ellipse cx="12" cy="6" rx="8" ry="3" stroke="currentColor" stroke-width="2"/></svg>救急収益シミュレーション</a>
+            <a class="dp-nav-item active"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><polyline points="21 15 16 10 5 21" stroke="currentColor" stroke-width="2"/></svg>病院画像</a>
+          </nav>
+        </div>
+        <div>
+          <div class="dp-notice-banner"><svg viewBox="0 0 24 24" width="14" height="14" fill="none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2"/></svg>未回答のアンケート5件</div>
+          <a class="dp-sidebar-help">ヘルプ・お問い合わせ</a>
+          <div class="dp-sidebar-bottom">
+            <div class="dp-sidebar-user">
+              <span class="avatar-circle">病</span>
+              <span style="flex:1; font-size:var(--fs-xs);">ドクターズプライム病院</span>
+              <span style="color:var(--blueGray-500)">∨</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="dp-main">
+        <div class="page-title">病院画像</div>
+        <div class="img-page-desc">
+          アップロードした画像は、医師が見る求人詳細ページの「病院の様子」セクションに表示されます。<br>
+          院内・当直室・医療機器・スタッフの雰囲気が伝わる写真が効果的です。
+        </div>
+        <div class="img-spec-row">
+          <span><strong>画像の仕様</strong></span>
+          <span>画像比率: <strong>4:3</strong> ⓘ</span>
+          <span>画像枚数: <strong>最大10枚</strong></span>
+          <span>形式: <strong>JPG / PNG / WebP</strong></span>
+          <span>表示順: <strong>アップロード順</strong> ⓘ</span>
+        </div>
+        <div class="img-toolbar">
+          <div>
+            <div class="img-title">アップロード済み画像</div>
+            <div class="img-title-sub">医師側ではこの順番で表示されます。</div>
+          </div>
+          <button class="upload-btn">＋ 画像をアップロード</button>
+        </div>
+        <div class="img-grid">
+          <div class="img-card">
+            <div class="img-thumb lobby">
+              <span class="order-badge">1 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7v15h7v-7h6v7h7V7l-10-5zm0 2.21L19 8v12h-3v-7H8v7H5V8l7-3.79z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 15:57</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb duty warn">
+              <span class="order-badge">2 番目に表示</span><span class="ratio-badge">16:9</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-2V1h-2v2H9V1H7v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 15:57</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb office">
+              <span class="order-badge">3 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:42</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb duty">
+              <span class="order-badge">4 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3zm0-4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm5.81 2.81C13.55 12.42 14.27 12 15 12c.85 0 1.61.34 2.18.88l-1.27 1.32 4.36-.05L19.83 10l-1.36 1.41C17.55 10.55 16.32 10 15 10c-1.71 0-3.21.83-4.16 2.11C9.89 13.16 8.5 14 7 14c-2.21 0-4-1.79-4-4s1.79-4 4-4c.97 0 1.85.36 2.55.94l1.42-1.43A5.97 5.97 0 0 0 7 4C3.69 4 1 6.69 1 10s2.69 6 6 6c1.71 0 3.21-.83 4.16-2.11.95-1.05 2.34-1.89 3.84-1.89.6 0 1.18.13 1.7.35l1.59 1.65c-.83 1.27-2.27 2-3.79 2-1.27 0-2.49-.53-3.34-1.45L9.5 16.18C10.59 17.36 12.21 18 13.97 18c2.61 0 4.91-1.6 5.84-3.81L21 16v-4l-4.36-.04 1.27 1.32A4.05 4.05 0 0 1 15 14.5c-.85 0-1.61-.34-2.19-.88z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:42</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb gear">
+              <span class="order-badge">5 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 22h14v-2H5v2zm0-4h14v-2H5v2zM5 3v12h14V3H5zm12 10H7V5h10v8z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:42</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb office">
+              <span class="order-badge">6 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h13v-2H3v2zm0-7v2h18v-2H3zm0-5v2h18V6H3z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:43</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb kitchen">
+              <span class="order-badge">7 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm6 16H6V8h2v2c0 .55.45 1 1 1s1-.45 1-1V8h4v2c0 .55.45 1 1 1s1-.45 1-1V8h2v12z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:43</span><span>🗑</span></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="ui-label"><span class="role doctor">医師側</span>求人詳細の「病院の様子」セクション（実画面再現）</div>
+  <div class="ui-pair">
+    <div>
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-status-bar"><span>9:41</span><span>📶 100%</span></div>
+        <div class="phone-top-bar">
+          <span class="back-arrow">‹</span>
+          <span></span>
+          <span class="hamburger"><span></span><span></span><span></span></span>
+        </div>
+        <div class="phone-screen">
+          <div class="phone-carousel-h">病院の様子</div>
+          <div class="phone-carousel">
+            <div class="carousel-building"></div>
+            <span class="carousel-arrow l">‹</span>
+            <span class="carousel-arrow r">›</span>
+            <span class="carousel-indicator">1/7</span>
+          </div>
+          <div class="phone-section-h" style="margin-top:0;">勤務場所とアクセス</div>
+          <div class="phone-access-row">
+            <span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>
+            <div class="body"><div class="h">住所</div><div class="v">東京都杉並区天沼3-17-3</div></div>
+          </div>
+          <div class="phone-access-row">
+            <span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/></svg></span>
+            <div class="body"><div class="h">アクセス</div><div class="v">JR「荻窪駅」より徒歩7分</div></div>
+          </div>
+          <div class="phone-access-row">
+            <span class="ic"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></span>
+            <div class="body"><div class="h">交通費</div><div class="v">実費(上限金額まで)<br>1日あたり上限5000円まで実費支給</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="background: var(--blueGray-50); border-radius: 8px; padding: 20px;">
+        <div style="font-size: var(--fs-xs); font-weight: 700; color: var(--blueGray-600); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px;">医師側で見えるもの</div>
+        <ul style="margin: 0; padding-left: 18px; font-size: var(--fs-md);">
+          <li style="margin-bottom: 6px;">「病院の様子」セクションが求人詳細の上部にあり、最大 10 枚の写真をスワイプで閲覧できる</li>
+          <li style="margin-bottom: 6px;">続けて「勤務場所とアクセス」も同じ画面で確認できるので、応募前に病院像を掴みやすい</li>
+          <li>写真の質と量がそのまま、医師の「行ってみよう」の後押しになる</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="effect-callout">
+    <span class="head">効果</span>
+    <ul>
+      <li>医師の応募 CVR が上がる</li>
+      <li>「<strong>画像を充実させると求人が選ばれやすくなる</strong>」と病院に提案できる</li>
+    </ul>
+  </div>
+  <details class="feature-detail">
+    <summary>詳細（背景・解決の中身）</summary>
+    <div class="detail-body">
+      <div class="detail-row problem">
+        <span class="detail-label">課題</span>
+        <span class="detail-content">医師インタビューで「ワークは受けたら断れない求人。受ける前にイメージが湧かないと応募できない」という声が複数。文字情報だけでは当直のイメージが掴めない。</span>
+      </div>
+      <div class="detail-row solve">
+        <span class="detail-label">解決</span>
+        <span class="detail-content">beer-web 求人詳細画面に「病院の様子セクション」を新設。病院単位で最大 10 枚（4:3 比率）の画像を入稿可能。入稿は DP 社内オペレーションが <code>beer-hospital</code> 経由で実施。</span>
+      </div>
+    </div>
+  </details>
+</article>
+
+<!-- 2-2 過去評価（応募ハードルを下げる文脈で） -->
+<article class="feature">
+  <div class="feature-head">
+    <span class="id">2-2</span>
+    <h3>溜まった評価も相互で確認可能に</h3>
+  </div>
+
+  <div class="pitch">
+    <span class="pitch-icon">⭐</span>
+    <span class="pitch-text">過去の勤務評価が <strong>4 軸の星</strong>で見える。「他院でも 100% の医師」が一目で分かる。</span>
+  </div>
+
+  <div class="ui-label"><span class="role doctor">医師側（求人詳細・スマホ）</span>勤務満足度を 4 軸で詳細表示（実画面再現）</div>
+  <div class="ui-pair">
+    <div>
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-status-bar"><span>9:41</span><span>📶 100%</span></div>
+        <div class="phone-top-bar">
+          <span class="back-arrow">‹</span>
+          <span></span>
+          <span class="hamburger"><span></span><span></span><span></span></span>
+        </div>
+        <div class="phone-screen">
+          <div class="phone-breadcrumb">TOP / <a>岡山県の求人一覧</a> / 全仁会 倉敷平成病院 7/20 (月)</div>
+          <div class="phone-listing-title">↗ 7/20 (月) 全仁会 倉敷平成病院</div>
+          <div class="phone-time-h">17:00 〜 翌 8:30</div>
+          <div class="phone-price">想定 <strong>132,500円</strong> <span style="color:var(--blueGray-400)">ⓘ</span></div>
+          <div class="phone-price-sub">基本報酬 108,500円 (時給7,000円)<br>想定インセンティブ 24,000円</div>
+          <div class="phone-satisfaction-card">
+            <div class="phone-sat-head">
+              <span>勤務満足度</span>
+              <span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span></span>
+              <span>4.3/5</span>
+              <span class="head-arrow">∧</span>
+            </div>
+            <div class="phone-sat-body">
+              <div class="phone-sat-row">
+                <span class="sat-label">救急受入れへの積極性</span>
+                <span class="sat-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></span>
+                <span class="sat-score">4.6/5</span>
+              </div>
+              <div class="phone-sat-row">
+                <span class="sat-label">スタッフのバックアップ体制</span>
+                <span class="sat-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span></span>
+                <span class="sat-score">4.2/5</span>
+              </div>
+              <div class="phone-sat-row">
+                <span class="sat-label">コンサルトの充実度</span>
+                <span class="sat-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star empty">★</span></span>
+                <span class="sat-score">3.8/5</span>
+              </div>
+              <div class="phone-sat-row">
+                <span class="sat-label">検査体制の充実度</span>
+                <span class="sat-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></span>
+                <span class="sat-score">4.6/5</span>
+              </div>
+            </div>
+            <div class="phone-sat-note">※該当病院で勤務された先生の評価をもとに集計しています</div>
+          </div>
+          <div class="phone-cta-btn">新着通知を受け取る</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="background: var(--blueGray-50); border-radius: 8px; padding: 20px;">
+        <div style="font-size: var(--fs-xs); font-weight: 700; color: var(--blueGray-600); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px;">医師側で得られる体験</div>
+        <ul style="margin: 0; padding-left: 18px; font-size: var(--fs-md);">
+          <li style="margin-bottom: 6px;">過去に勤務した医師の評価が <strong>4 軸（救急受入の積極性／スタッフのバックアップ／コンサルト／検査体制）</strong> で星表示</li>
+          <li style="margin-bottom: 6px;">「行ったことのない病院」に対する不安が減り、応募の心理的ハードルが下がる</li>
+          <li>蓄積評価が高い病院ほど自然に応募が集まる</li>
+        </ul>
+        <div style="font-size: var(--fs-xs); font-weight: 700; color: var(--blueGray-600); letter-spacing: 0.05em; text-transform: uppercase; margin: 18px 0 12px;">病院側に提案できる価値</div>
+        <ul style="margin: 0; padding-left: 18px; font-size: var(--fs-md);">
+          <li style="margin-bottom: 6px;">「アンケートに丁寧に答えてもらう運用が、回り回って <strong>応募率に効く資産</strong> になる」と語れる</li>
+          <li>評価が低い軸は改善のネタになる（CS と一緒に振り返り可能）</li>
+        </ul>
+      </div>
+      <div style="margin-top: 12px; font-size: var(--fs-xs); color: var(--blueGray-500);">
+        💡 病院側にも同じ「勤務回数・応需率・満足度3軸」が表示される（下記）
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-label"><span class="role hospital">病院側</span>医師一覧 / 医師プロフィール（過去評価が常時表示）</div>
+  <div class="browser-frame">
+    <div class="browser-bar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="url">hospital.drsprime.com/v2/.../listing/{listingId}/doctor/{doctorId}</span>
+    </div>
+    <div class="app-shell">
+      <aside class="dp-sidebar">
+        <div class="dp-sidebar-top">
+          <div class="dp-logo">Dr.'s Prime<span class="work">Work</span></div>
+          <nav class="dp-nav">
+            <a class="dp-nav-item active"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="9" r="1.5" fill="currentColor"/><circle cx="12" cy="9" r="1.5" fill="currentColor"/><circle cx="16" cy="9" r="1.5" fill="currentColor"/></svg>求人管理</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><polyline points="7 12 13 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>スカウト</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8" stroke="currentColor" stroke-width="2"/></svg>勤務医師の声</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="currentColor"/></svg>医師別サマリー</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="14" width="4" height="8" rx="1" fill="currentColor"/></svg>ダッシュボード</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/></svg>適正給与分析</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="18" rx="8" ry="3" stroke="currentColor" stroke-width="2"/></svg>救急収益シミュレーション</a>
+            <a class="dp-nav-item"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/></svg>病院画像</a>
+          </nav>
+        </div>
+        <div>
+          <div class="dp-notice-banner"><svg viewBox="0 0 24 24" width="14" height="14" fill="none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2"/></svg>未回答のアンケート5件</div>
+        </div>
+      </aside>
+      <main class="dp-main">
+        <div class="page-title">医師一覧</div>
+        <div class="hsp-doctor-card">
+          <div class="hsp-doctor-header">
+            <span class="hsp-doctor-name">鑛納 郁弥 <span class="kana">(コウノウ フミヤ)</span></span>
+          </div>
+          <div class="hsp-body">
+            <div class="label">勤務病院</div>
+            <div class="value"><strong>株式会社ドクターズプライム</strong></div>
+
+            <div class="label">医籍登録年月日</div>
+            <div class="value"><strong>2019年04月17日</strong></div>
+
+            <div class="label">対応可能な診療科</div>
+            <div class="value">
+              <div class="hsp-tags">
+                <span class="hsp-dept-tag">腎臓内科</span>
+                <span class="hsp-dept-tag">腫瘍治療科</span>
+                <span class="hsp-dept-tag">総合診療科</span>
+                <span class="hsp-dept-tag">消化器内科</span>
+                <span class="hsp-dept-tag">循環器内科</span>
+                <span class="hsp-dept-tag">呼吸器内科</span>
+                <span class="hsp-dept-tag">内分泌内科</span>
+                <span class="hsp-dept-tag">感染症内科</span>
+                <span class="hsp-dept-tag">神経内科</span>
+                <span class="hsp-dept-tag">膠原病リウマチ内科</span>
+                <span class="hsp-dept-tag">血液内科</span>
+              </div>
+            </div>
+
+            <div class="label">取得専門医資格</div>
+            <div class="value">-</div>
+
+            <div class="label">実績</div>
+            <div class="value">
+              <div class="stat-inline">
+                勤務 <span class="num">17回</span>
+                <span class="dot">・</span>
+                応需率 <span class="num">78%</span>
+                <span class="dot">・</span>
+                勤務決定後キャンセル率 <span class="num">9%</span>
+              </div>
+            </div>
+
+            <div class="label">病院満足度</div>
+            <div class="value">
+              <div class="hsp-bar-grid">
+                <span class="hsp-bar-label">勤務時間の厳守</span>
+                <span class="hsp-bar-track"><span class="hsp-bar-fill" style="width:100%;"></span></span>
+                <span class="hsp-bar-value">100%</span>
+
+                <span class="hsp-bar-label">診療スキル</span>
+                <span class="hsp-bar-track"><span class="hsp-bar-fill" style="width:100%;"></span></span>
+                <span class="hsp-bar-value">100%</span>
+
+                <span class="hsp-bar-label">スタッフ・患者対応</span>
+                <span class="hsp-bar-track"><span class="hsp-bar-fill" style="width:100%;"></span></span>
+                <span class="hsp-bar-value">100%</span>
+              </div>
+            </div>
+          </div>
+          <div class="hsp-action-row">
+            <button class="hsp-btn primary">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              アンケートに回答する
+            </button>
+            <button class="hsp-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+              ブロック設定
+            </button>
+            <button class="hsp-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><polyline points="22 4 12 14 2 4"/></svg>
+              メッセージを送信
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="effect-callout">
+    <span class="head">効果</span>
+    <ul>
+      <li><strong>採用後のサプライズが減る</strong>（過去評価・キャンセル率が常時見える）</li>
+      <li>「他院で評価された医師」を、データを根拠に病院がリピート採用できる</li>
+    </ul>
+  </div>
+  <details class="feature-detail">
+    <summary>詳細（背景・解決の中身）</summary>
+    <div class="detail-body">
+      <div class="detail-row problem">
+        <span class="detail-label">課題</span>
+        <span class="detail-content">過去数年分のアンケート評価データが蓄積していたが、自分自身の関与した分しか見えず、<strong>"市場視点"の情報が活用できていなかった</strong>。</span>
+      </div>
+      <div class="detail-row solve">
+        <span class="detail-label">解決</span>
+        <span class="detail-content">医師アプリ：病院ごとに<strong>過去に勤務した医師の星評価</strong>を求人詳細で閲覧可能に。病院管理画面：医師カードに<strong>勤務回数・救急応需率・満足度3指標</strong>を常時表示。</span>
+      </div>
+    </div>
+  </details>
+</article>
+
+</div>
+
+<!-- ========== Tab Panel 3 ==========-->
+<div class="main-tab-panel" id="t3">
+
+<!-- ============================================================== -->
+<!-- SECTION 3 — Interactive Shell                                   -->
+<!-- ============================================================== -->
+<div id="s3" class="section-band">
+  <span class="num">3</span>
+  <h2>病院向け機能群 ― セルフサーブと意思決定支援</h2>
+</div>
+
+<div class="fi-hint-strong">
+  <span class="big-arrow">👇</span>
+  <div class="hint-text">
+    <span class="pulse-dot"></span>
+    下のアプリの<span class="em">サイドナビをクリック</span>すると、9 つの機能を切り替えられます。<br>
+    <span style="font-size: 13px; font-weight: 500;">説明・実画面・効果がすべて連動して入れ替わります。</span>
+  </div>
+</div>
+
+<div class="fi-meta-area">
+  <div class="feature-head">
+    <span class="id" id="fi-id">3-5</span>
+    <h3 id="fi-title">アンケート未回答表示</h3>
+    <span class="new-badge" id="fi-new" style="display:none;">NEW</span>
+  </div>
+  <div class="pitch">
+    <span class="pitch-icon" id="fi-pitch-icon">💡</span>
+    <span class="pitch-text" id="fi-pitch"></span>
+  </div>
+</div>
+
+<div class="browser-frame">
+  <div class="browser-bar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="url" id="fi-url">hospital.drsprime.com/v2/.../listings</span>
+  </div>
+  <div class="app-shell">
+    <aside class="dp-sidebar">
+      <div class="dp-sidebar-top">
+        <div class="dp-logo">Dr.'s Prime<span class="work">Work</span></div>
+        <nav class="dp-nav">
+          <a class="dp-nav-item active" data-target="p-listings" onclick="switchFeature(this)"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="9" r="1.5" fill="currentColor"/><circle cx="12" cy="9" r="1.5" fill="currentColor"/><circle cx="16" cy="9" r="1.5" fill="currentColor"/><circle cx="8" cy="13" r="1.5" fill="currentColor"/><circle cx="12" cy="13" r="1.5" fill="currentColor"/><circle cx="16" cy="13" r="1.5" fill="currentColor"/></svg>求人管理</a>
+          <a class="dp-nav-item" data-target="p-scout" onclick="switchFeature(this)"><svg viewBox="0 0 24 24" fill="none"><polyline points="7 12 13 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><polyline points="11 7 17 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><polyline points="7 17 13 17" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>スカウト</a>
+          <a class="dp-nav-item" data-target="p-voice" onclick="switchFeature(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" stroke="currentColor" stroke-width="2"/></svg>勤務医師の声</a>
+          <a class="dp-nav-item" data-target="p-summary" onclick="switchFeature(this)"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="currentColor" stroke-width="2"/></svg>医師別サマリー</a>
+          <a class="dp-nav-item" data-target="p-repeat" onclick="switchFeature(this)"><svg viewBox="0 0 24 24" fill="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="currentColor"/></svg>リピート意向<span class="new-mini">NEW</span></a>
+          <a class="dp-nav-item" data-target="p-dashboard" onclick="switchFeature(this)"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="14" width="4" height="8" rx="1" fill="currentColor"/><rect x="10" y="8" width="4" height="14" rx="1" fill="currentColor"/><rect x="17" y="3" width="4" height="19" rx="1" fill="currentColor"/></svg>ダッシュボード</a>
+          <a class="dp-nav-item" data-target="p-salary" onclick="switchFeature(this)"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>適正給与分析</a>
+          <a class="dp-nav-item" data-target="p-simulator" onclick="switchFeature(this)"><svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="18" rx="8" ry="3" stroke="currentColor" stroke-width="2"/><ellipse cx="12" cy="12" rx="8" ry="3" stroke="currentColor" stroke-width="2"/><ellipse cx="12" cy="6" rx="8" ry="3" stroke="currentColor" stroke-width="2"/></svg>救急収益シミュレーション</a>
+          <a class="dp-nav-item" data-target="p-images" onclick="switchFeature(this)"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"/><polyline points="21 15 16 10 5 21" stroke="currentColor" stroke-width="2"/></svg>病院画像</a>
+        </nav>
+      </div>
+      <div>
+        <div class="dp-notice-banner"><svg viewBox="0 0 24 24" width="14" height="14" fill="none"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="2"/></svg>未回答のアンケート5件</div>
+        <a class="dp-sidebar-help">ヘルプ・お問い合わせ</a>
+        <div class="dp-sidebar-bottom">
+          <div class="dp-sidebar-user">
+            <span class="avatar-circle">病</span>
+            <span style="flex:1; font-size:var(--fs-xs);">ドクターズプライム病院</span>
+            <span style="color:var(--blueGray-500)">∨</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <main class="dp-main" style="position: relative; min-height: 560px;">
+      <!-- p-listings -->
+      <div class="feature-panel active" id="p-listings" style="position: relative;">
+        <div class="listing-cta-banner">
+          <div class="cal-icon">掲載時期<br>6月〜8月</div>
+          <div class="cta-body">
+            <div class="cta-title">求人を登録する適正時期です</div>
+            <div class="cta-sub">医師は1〜3ヶ月先の求人を閲覧しています。応募が集まりやすい時期です</div>
+          </div>
+          <span class="cta-btn">＋ 求人を登録</span>
+        </div>
+        <div class="campaign-banner">
+          <span class="cb-badge">さらにキャンペーン実施中！</span>
+          <span><span class="cb-em">6月勤務</span> の求人を <strong>あと10件</strong> 採用すると <strong>¥42,000割引</strong></span>
+          <span class="cb-link">詳細を確認する ∨</span>
+        </div>
+        <div class="stats-row">
+          <span class="stat-h">📊 求人の閲覧・応募状況</span>
+          <span class="stat-subtle">（来月）</span>
+          <span class="stat"><span class="dot y"></span>閲覧 <strong>15</strong> 名</span>
+          <span class="stat"><span class="dot b"></span>掲載求人 <strong>27</strong> 件</span>
+          <span class="stat"><span class="dot p"></span>応募 <strong>4</strong> 名</span>
+          <span class="stat-graph-link">グラフを表示 ∨</span>
+        </div>
+        <div class="listing-tabs">
+          <div class="t active">公開中</div>
+          <div class="t">勤務予定</div>
+          <div class="t">勤務終了</div>
+        </div>
+        <div class="empty-state" style="padding: 60px 16px;">公開中の求人はありません</div>
+
+        <!-- Modal overlay: 未回答のアンケート (clicked from sidebar) -->
+        <div class="modal-overlay">
+          <div class="modal-card">
+            <div class="modal-header">
+              <div class="modal-title">未回答のアンケート（5件）</div>
+              <div class="modal-sub">直近60日以内の勤務分を表示しています</div>
+              <button class="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+              <div class="survey-item">
+                <div class="doctor-info">
+                  <div class="doctor-name">田中 武頭 先生</div>
+                  <div class="work-time">2026/05/09（土）15:00 〜 23:00</div>
+                </div>
+                <button class="answer-btn">回答する ›</button>
+              </div>
+              <div class="survey-item">
+                <div class="doctor-info">
+                  <div class="doctor-name">田中 武頭 先生</div>
+                  <div class="work-time">2026/05/03（日）20:00 〜 22:00</div>
+                </div>
+                <button class="answer-btn">回答する ›</button>
+              </div>
+              <div class="survey-item">
+                <div class="doctor-info">
+                  <div class="doctor-name">鑛納 郁弥 先生</div>
+                  <div class="work-time">2026/05/01（金）16:00 〜 18:00</div>
+                </div>
+                <button class="answer-btn">回答する ›</button>
+              </div>
+              <div class="survey-item">
+                <div class="doctor-info">
+                  <div class="doctor-name">藤池 秀一 先生</div>
+                  <div class="work-time">2026/04/01（水）15:00 〜 23:00</div>
+                </div>
+                <button class="answer-btn">回答する ›</button>
+              </div>
+              <div class="survey-item">
+                <div class="doctor-info">
+                  <div class="doctor-name">test 優 先生</div>
+                  <div class="work-time">2026/03/22（日）09:00 〜 17:00</div>
+                </div>
+                <button class="answer-btn">回答する ›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- p-scout -->
+      <div class="feature-panel" id="p-scout">
+        <div class="scout-banner">
+          <div class="sb-doctor">👨‍⚕️</div>
+          <div class="sb-body">
+            <div class="sb-headline">🎉 大好評につき、5月もキャンペーン延長！</div>
+            <div style="font-size: 18px; font-weight: 700; margin-top: 4px;">スカウト5名分(10万円相当)が <span class="sb-em">無料</span>でもらえる！</div>
+          </div>
+          <span class="sb-cta">詳細・お申し込みはこちら →</span>
+        </div>
+        <div class="scout-tabs">
+          <div class="t active">医師検索</div>
+          <div class="t">お気に入り</div>
+          <div class="t">求人閲覧者</div>
+        </div>
+        <div class="scout-layout">
+          <aside class="scout-filter-card">
+            <h3>🔍 絞り込み検索</h3>
+            <div class="field">
+              <div class="field-label">都道府県</div>
+              <div class="field-input">すべて ∨</div>
+            </div>
+            <div class="field">
+              <div class="field-label">医籍登録年</div>
+              <div style="display:flex; gap:4px; align-items:center;">
+                <div class="field-input" style="flex:1;">∨</div>
+                <span>〜</span>
+                <div class="field-input" style="flex:1;">∨</div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-label">診療科</div>
+              <div class="field-input">すべて ∨</div>
+            </div>
+            <button class="search-btn">検索</button>
+          </aside>
+          <div>
+            <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <div style="font-size: var(--fs-md); font-weight: 700;">医師一覧 <span style="font-size: var(--fs-sm); font-weight: 400; color: var(--blueGray-500);">6,224名の医師が見つかりました</span></div>
+              <span style="font-size:var(--fs-xs); color: var(--blueGray-600); border: 1px solid var(--blueGray-200); padding: 4px 10px; border-radius: 6px;">↕ 最終ログイン: 新しい順 ∨</span>
+            </div>
+            <div class="doctor-card-grid">
+              <div class="doctor-card">
+                <div class="top-row">
+                  <div class="checkbox"></div>
+                  <div class="login-badge">1時間以内にログイン</div>
+                </div>
+                <div class="pref-line">
+                  <span class="pref-name">東京都</span>
+                  <span class="hosp-name">東京都立病院機構<br>東京都立駒込病院</span>
+                </div>
+                <div class="info-section">
+                  <div class="sec-title">👤 基本情報</div>
+                  <div class="info-row">所属診療科 / <strong>肝胆膵外科</strong></div>
+                  <div class="info-row">医籍登録年 / <strong>2018年</strong></div>
+                </div>
+                <div class="info-section">
+                  <div class="sec-title">📍 実績</div>
+                  <div class="info-row">過去勤務回数 / <strong>8 回</strong>　救急応需率 / <strong>100 %</strong></div>
+                </div>
+                <div class="perf-block">
+                  <div class="perf-h">病院満足度（勤務後アンケート結果）</div>
+                  <div class="perf-row"><span class="perf-label">勤務時間の厳守</span><span class="perf-bar"><span class="fill" style="width:100%;"></span></span><span class="perf-pct">100%</span></div>
+                  <div class="perf-row"><span class="perf-label">診療スキル</span><span class="perf-bar"><span class="fill" style="width:100%;"></span></span><span class="perf-pct">100%</span></div>
+                  <div class="perf-row"><span class="perf-label">スタッフ・患者対応</span><span class="perf-bar"><span class="fill" style="width:100%;"></span></span><span class="perf-pct">100%</span></div>
+                </div>
+                <div class="card-actions">
+                  <span class="btn">お気に入り</span>
+                  <span class="btn primary">プロフィールを見る</span>
+                </div>
+              </div>
+              <div class="doctor-card">
+                <div class="top-row">
+                  <div class="checkbox"></div>
+                  <div class="login-badge">1時間以内にログイン</div>
+                </div>
+                <div class="pref-line">
+                  <span class="pref-name">大阪府</span>
+                  <span class="hosp-name">三宝会 南港病院</span>
+                </div>
+                <div class="info-section">
+                  <div class="sec-title">👤 基本情報</div>
+                  <div class="info-row">所属診療科 / <strong>総合診療科</strong></div>
+                  <div class="info-row">医籍登録年 / <strong>2018年</strong></div>
+                </div>
+                <div class="info-section">
+                  <div class="sec-title">📍 実績</div>
+                  <div class="info-row">過去勤務回数 / <strong>26 回</strong>　救急応需率 / <strong>96 %</strong></div>
+                </div>
+                <div class="perf-block">
+                  <div class="perf-h">病院満足度（勤務後アンケート結果）</div>
+                  <div class="perf-row"><span class="perf-label">勤務時間の厳守</span><span class="perf-bar"><span class="fill" style="width:100%;"></span></span><span class="perf-pct">100%</span></div>
+                  <div class="perf-row"><span class="perf-label">診療スキル</span><span class="perf-bar"><span class="fill" style="width:87%;"></span></span><span class="perf-pct">87%</span></div>
+                  <div class="perf-row"><span class="perf-label">スタッフ・患者対応</span><span class="perf-bar"><span class="fill" style="width:100%;"></span></span><span class="perf-pct">100%</span></div>
+                </div>
+                <div class="card-actions">
+                  <span class="btn">お気に入り</span>
+                  <span class="btn primary">プロフィールを見る</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- p-voice -->
+      <div class="feature-panel cross-ref-panel" id="p-voice">
+        <div class="crh">勤務医師の声</div>
+        <div class="crd">医師がアンケートで残した「感謝の声」「改善要望」を病院が確認できる画面。<br>本資料では <strong>セクション 1（相互評価の見える化）</strong> でこの仕組み全体を説明しています。</div>
+        <a href="#s1" class="cr-btn">セクション 1 を見る ↑</a>
+      </div>
+
+      <!-- p-summary -->
+      <div class="feature-panel" id="p-summary">
+        <div class="page-title">医師別サマリー</div>
+        <div class="period-row">
+          <span class="label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/></svg>参照期間</span>
+          <span class="period-select">2026年 ∨</span>
+          <span class="period-select">3月 ∨</span>
+          <span style="color:var(--blueGray-400);">〜</span>
+          <span class="period-select">2026年 ∨</span>
+          <span class="period-select">5月 ∨</span>
+        </div>
+        <div class="analytics-subtabs">
+          <div class="st">勤務実績</div>
+          <div class="st active">アンケート集計</div>
+        </div>
+        <div style="overflow-x:auto;">
+        <table class="survey-table">
+          <thead>
+            <tr>
+              <th class="left g-work" rowspan="2">医師名</th>
+              <th class="g-work" rowspan="2">勤務数</th>
+              <th class="g-work" rowspan="2">入院率</th>
+              <th class="g-work" rowspan="2">不当な<br>断り数</th>
+              <th class="g-work" rowspan="2">再採用意向</th>
+              <th class="g-skill" colspan="4">スキル</th>
+              <th class="g-staff" colspan="3">スタッフ応対</th>
+            </tr>
+            <tr>
+              <th class="g-skill">非常に満足</th>
+              <th class="g-skill">満足</th>
+              <th class="g-skill">判断難し</th>
+              <th class="g-skill">不満</th>
+              <th class="g-staff">非常に満足</th>
+              <th class="g-staff">満足</th>
+              <th class="g-staff">判断難し</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left">test ji</td><td>2</td><td>100.0%</td><td>0</td><td>0/2</td>
+              <td>0</td><td>0</td><td>2</td><td>0</td><td>0</td><td>0</td><td>2</td>
+            </tr>
+            <tr>
+              <td class="left">鑛納 郁弥</td><td>1</td><td>100.0%</td><td>4</td><td>1/1</td>
+              <td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+        <div class="survey-footnote">
+          応需率は、正当なお断りを除いて算出しています。<br>
+          入院率は、応需数に対する入院数の割合で算出しています。<br>
+          再採用意向は、「定期非常勤として採用したい」「スポットで優先的に採用したい」をポジティブ回答として集計しています。
+        </div>
+        <div class="pagination-lg">
+          <span>1-2 / 2件</span><button>&lt;</button><span>1 / 1</span><button>&gt;</button>
+        </div>
+      </div>
+
+      <!-- p-repeat -->
+      <div class="feature-panel" id="p-repeat">
+        <div class="page-title">リピート意向</div>
+        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div></div>
+          <span class="cal-skip-link">現在の掲載状況を確認する <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 6L8 11L13 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <p style="font-size: var(--fs-sm); color: var(--blueGray-500); margin-bottom: 12px;">医師がアンケートで回答したリピート勤務の希望内容を表示しています。</p>
+        <table class="repeat-detail-table">
+          <thead>
+            <tr><th>勤務医師</th><th>勤務日</th><th>回答日</th><th>勤務希望日程（スポット）</th><th>勤務希望日程（定期）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>test ji</td><td>4/7（火）</td><td>2026/4/8</td><td>4/21（火）, 4/28（火）</td><td><span class="pill pill--good">火曜日</span></td></tr>
+            <tr><td>test 優</td><td>3/24（火）</td><td>2026/3/25</td><td>4/14（火）, 4/22（水）</td><td><span class="pill pill--good">火曜日</span> <span class="pill pill--good">水曜日</span></td></tr>
+            <tr><td>藤池 秀一</td><td>3/1（水）</td><td>2026/3/2</td><td>4/1（水）, 4/15（水）</td><td><span class="pill pill--good">水曜日</span></td></tr>
+            <tr><td>筋野 朝陽</td><td>2/15（日）</td><td>2026/2/16</td><td>3/15（日）, 3/29（日）</td><td><span class="pill pill--good">日曜日</span></td></tr>
+            <tr><td>中村 敬介</td><td>2/1（日）</td><td>2026/2/2</td><td>3/1（日）</td><td><span class="pill pill--good">日曜日</span> <span class="pill pill--good">火曜日</span></td></tr>
+            <tr><td>鈴木 雄哉</td><td>1/10（土）</td><td>2026/1/11</td><td>2/7（土）, 2/14（土）</td><td><span class="pill pill--good">土曜日</span></td></tr>
+          </tbody>
+        </table>
+        <div class="pagination-lg">
+          <span>15件</span><button>&lt;</button><span>1 / 3</span><button>&gt;</button>
+        </div>
+      </div>
+
+      <!-- p-dashboard -->
+      <div class="feature-panel" id="p-dashboard">
+        <div class="page-title">ダッシュボード</div>
+        <div class="kpi-row">
+          <div class="kpi-card">
+            <div class="kpi-label">勤務コマ数</div>
+            <div class="kpi-value"><span class="kpi-num">86</span><span class="kpi-unit">コマ</span></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">受け入れ / 断り</div>
+            <div class="kpi-value"><span class="kpi-num">573</span><span class="kpi-sep">/</span><span class="kpi-num" style="color:var(--red-500);">161</span></div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">受け入れ率</div>
+            <div class="kpi-value"><span class="kpi-num">78</span><span class="kpi-unit">%</span></div>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid var(--blueGray-200); border-radius: 8px; padding: 16px 20px;">
+          <div style="font-size: var(--fs-md); font-weight: 700; margin-bottom: 12px;">月別 勤務コマ数 × 受け入れ率（2026年）</div>
+          <div style="height: 200px;"><canvas id="chart-dashboard"></canvas></div>
+        </div>
+        <div style="position: absolute; bottom: 24px; right: 24px;">
+          <span class="ai-fab">✨ AIで分析する</span>
+        </div>
+      </div>
+
+      <!-- p-salary -->
+      <div class="feature-panel" id="p-salary">
+        <div class="job-tabs">
+          <span class="tab active" data-stab="salary" onclick="switchSalaryTab('salary', this)">給与別応募率</span>
+          <span class="tab" data-stab="time" onclick="switchSalaryTab('time', this)">時間別応募率</span>
+        </div>
+        <div class="salary-subtab active" id="salary-subtab-salary">
+          <div class="salary-analysis">
+            <div class="sa-h">
+              <span class="sa-title page-title" style="margin-bottom:0;">適正給与分析</span>
+              <span class="sa-beta">β版</span>
+            </div>
+            <div class="salary-analysis-wrap">
+              <div class="salary-filters">
+                <div class="field">
+                  <div class="field-label">勤務時間帯</div>
+                  <div class="field-input">すべて <span>∨</span></div>
+                </div>
+                <div class="field">
+                  <div class="field-label">受入台数</div>
+                  <div class="field-input">すべて <span>∨</span></div>
+                </div>
+                <div class="field">
+                  <div class="field-label">都道府県</div>
+                  <div class="field-input">すべて <span>∨</span></div>
+                </div>
+              </div>
+              <div>
+                <div class="salary-chart-wrap"><canvas id="chart-salary"></canvas></div>
+                <div class="salary-footnote">※一定期間内に Dr.'s Prime Work で公開された求人を対象に、横軸に時給のレンジ、左軸に各レンジにおける応募が発生した割合（応募率）、右軸に求人数を集計して表示しています。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="salary-subtab" id="salary-subtab-time">
+          <section class="job-section">
+            <div>
+              <div class="job-section-title">時間別応募率</div>
+              <div class="job-section-sub">ドクターズプライム内の一定期間のデータより試算</div>
+            </div>
+            <div class="wt-tabs-wrap">
+              <span class="wt-tabs-label">仕事タイプ</span>
+              <div class="wt-tabs">
+                <button data-wt="夜勤" class="active">当直</button>
+                <button data-wt="日勤">日勤</button>
+                <button data-wt="日当直">日当直</button>
+              </div>
+            </div>
+            <div id="wt-rec" class="wt-rec"></div>
+            <div class="filter-charts">
+              <div class="filter-chart">
+                <div class="filter-chart-title">曜日別 応募率</div>
+                <div class="chart-canvas-wrap"><canvas id="chart-sel-day"></canvas></div>
+              </div>
+              <div class="filter-chart">
+                <div class="filter-chart-title">開始時刻別 応募率</div>
+                <div class="chart-canvas-wrap"><canvas id="chart-sel-start"></canvas></div>
+              </div>
+              <div class="filter-chart">
+                <div class="filter-chart-title">終了時刻別 応募率</div>
+                <div class="chart-canvas-wrap"><canvas id="chart-sel-end"></canvas></div>
+              </div>
+            </div>
+            <div class="job-footnote">点線 = PF 平均応募率 75% / バーは応募率 / カーソルを合わせると母数 N が見えます</div>
+          </section>
+        </div>
+      </div>
+
+      <!-- p-simulator -->
+      <div class="feature-panel" id="p-simulator">
+        <div class="page-title">救急収益シミュレーション</div>
+        <div class="sim-info-banner">ドクターズプライムの医師が勤務することによる収益効果を試算します</div>
+        <div class="sim-wrap">
+          <div class="sim-input-card">
+            <div class="sim-pattern-row">
+              <span class="sim-pattern-select">清水プラン ∨</span>
+              <span class="sim-save-btn">変更を保存</span>
+            </div>
+            <div class="sim-field">
+              <div class="sim-field-label">1勤務あたり平均要請数</div>
+              <div class="sim-field-input"><span class="num">3</span><span class="unit">件</span></div>
+            </div>
+            <div class="sim-field">
+              <div class="sim-field-label">通常受入率</div>
+              <div class="sim-field-input"><span class="num">50</span><span class="unit">%</span></div>
+            </div>
+            <div class="sim-field">
+              <div class="sim-field-label">DP医師勤務日の受入率</div>
+              <div class="sim-field-input"><span class="num">96</span><span class="unit">%</span></div>
+            </div>
+            <div class="sim-field">
+              <div class="sim-field-label">受入単価（救急外来）</div>
+              <div class="sim-field-input"><span class="num">18,000</span><span class="unit">円</span></div>
+            </div>
+            <div class="sim-toggle">入院条件を指定 ∨</div>
+          </div>
+          <div class="sim-result-area">
+            <div class="sim-result-card">
+              <div class="sim-result-h">DP医師勤務時の想定収益（1勤務あたり）</div>
+              <div class="sim-result-v">388,512<span class="yen">円</span></div>
+              <div class="sim-result-delta">通常受入時 202,350円 から <span class="delta-num">+186,162円</span></div>
+            </div>
+            <div class="sim-breakdown-card">
+              <div class="sim-breakdown-h">収益内訳（DP勤務時）</div>
+              <div class="sim-breakdown-row">
+                <div>
+                  <div class="sim-br-title">受入</div>
+                  <div class="sim-br-formula">3件 × 96% = 2.9件 / 2.9件 × 18,000円</div>
+                </div>
+                <div class="sim-br-right">
+                  <div class="sim-br-amount"><span class="dp-tag">DP</span>51,840円</div>
+                  <div class="sim-br-delta">通常比 +24,840円</div>
+                </div>
+              </div>
+              <div class="sim-breakdown-row">
+                <div>
+                  <div class="sim-br-title">入院 <span class="badge">手術を伴う</span></div>
+                  <div class="sim-br-formula">3件 × 96% × 35% × 20% × 55,000円/日 × 14日</div>
+                </div>
+                <div class="sim-br-right">
+                  <div class="sim-br-amount"><span class="dp-tag">DP</span>155,232円</div>
+                  <div class="sim-br-delta">通常比 +74,382円</div>
+                </div>
+              </div>
+              <div class="sim-breakdown-row">
+                <div>
+                  <div class="sim-br-title">入院 <span class="badge">手術を伴わない</span></div>
+                  <div class="sim-br-formula">3件 × 96% × 35% × 80% × 45,000円/日 × 5日</div>
+                </div>
+                <div class="sim-br-right">
+                  <div class="sim-br-amount"><span class="dp-tag">DP</span>181,440円</div>
+                  <div class="sim-br-delta">通常比 +86,940円</div>
+                </div>
+              </div>
+              <div class="sim-breakdown-row" style="border-top: 2px solid var(--blueGray-200); margin-top:4px; background: var(--blueGray-50); margin-left:-20px; margin-right:-20px; padding: 12px 20px;">
+                <div>
+                  <div class="sim-br-title" style="font-size: var(--fs-lg);">合計</div>
+                </div>
+                <div class="sim-br-right">
+                  <div class="sim-br-amount" style="font-size: var(--fs-lg);"><span class="dp-tag">DP</span>388,512円</div>
+                  <div class="sim-br-delta">通常比 +186,162円</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- p-images -->
+      <div class="feature-panel" id="p-images">
+        <div class="page-title">病院画像</div>
+        <div class="img-page-desc">
+          アップロードした画像は、医師が見る求人詳細ページの「病院の様子」セクションに表示されます。<br>
+          院内・当直室・医療機器・スタッフの雰囲気が伝わる写真が効果的です。
+        </div>
+        <div class="img-spec-row">
+          <span><strong>画像の仕様</strong></span>
+          <span>画像比率: <strong>4:3</strong> ⓘ</span>
+          <span>画像枚数: <strong>最大10枚</strong></span>
+          <span>形式: <strong>JPG / PNG / WebP</strong></span>
+          <span>表示順: <strong>アップロード順</strong> ⓘ</span>
+        </div>
+        <div class="img-toolbar">
+          <div>
+            <div class="img-title">アップロード済み画像</div>
+            <div class="img-title-sub">医師側ではこの順番で表示されます。</div>
+          </div>
+          <button class="upload-btn">＋ 画像をアップロード</button>
+        </div>
+        <div class="img-grid">
+          <div class="img-card">
+            <div class="img-thumb lobby">
+              <span class="order-badge">1 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7v15h7v-7h6v7h7V7l-10-5zm0 2.21L19 8v12h-3v-7H8v7H5V8l7-3.79z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 15:57</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb duty warn">
+              <span class="order-badge">2 番目に表示</span><span class="ratio-badge">16:9</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-2V1h-2v2H9V1H7v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 15:57</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb office">
+              <span class="order-badge">3 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:42</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb duty">
+              <span class="order-badge">4 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 22h14v-2H5v2zm0-4h14v-2H5v2zM5 3v12h14V3H5z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:42</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb gear">
+              <span class="order-badge">5 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 22h14v-2H5v2zm0-4h14v-2H5v2z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:42</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb office">
+              <span class="order-badge">6 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h13v-2H3v2zm0-7v2h18v-2H3zm0-5v2h18V6H3z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:43</span><span>🗑</span></div>
+          </div>
+          <div class="img-card">
+            <div class="img-thumb kitchen">
+              <span class="order-badge">7 番目に表示</span><span class="ratio-badge">4:3</span>
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z"/></svg>
+            </div>
+            <div class="img-meta"><span>アップロード: 2026/05/13 16:43</span><span>🗑</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="effect-callout" style="margin-top: 16px;">
+  <span class="head">効果</span>
+  <ul id="fi-effect-list"></ul>
+</div>
+<details class="feature-detail">
+  <summary>詳細（背景・解決の中身）</summary>
+  <div class="detail-body">
+    <div class="detail-row problem">
+      <span class="detail-label">課題</span>
+      <span class="detail-content" id="fi-problem"></span>
+    </div>
+    <div class="detail-row solve">
+      <span class="detail-label">解決</span>
+      <span class="detail-content" id="fi-solve"></span>
+    </div>
+  </div>
+</details>
+
+</div>
+
+<!-- ========== Tab Panel 4 ==========-->
+<div class="main-tab-panel" id="t4">
+
+<!-- ============================================================== -->
+<!-- SECTION 4 — まとめ                                              -->
+<!-- ============================================================== -->
+<div id="s4" class="section-band">
+  <span class="num">4</span>
+  <h2>まとめ：機能群の構造</h2>
+</div>
+
+<p>これらの機能は単独の便利機能ではなく、以下の循環を作るためのピースである。</p>
+
+<div class="summary-flow">
+  <ol>
+    <li><strong>相互評価が見える</strong> → 病院・医師双方の振る舞いが磨かれる</li>
+    <li><strong>評価データが画面に出る</strong> → CS を介さず病院がセルフサーブで採用判断できる</li>
+    <li><strong>分析・シミュレーションが画面に出る</strong> → 病院が自分で打ち手を選べる</li>
+    <li><strong>スカウト＋リピート意向が画面で完結</strong> → CS は提案・コンサルに集中できる</li>
+  </ol>
+</div>
+
+<div class="closing-callout">
+  結果として、<strong>「働きやすい病院に医師が集まり、いい医師がもう一度来てくれる」プラットフォームへの転換</strong> を進めている。
+</div>
+
+</div>
+
+<footer class="doc-footer">
+  Dr.'s Prime Work プロダクトアップデート総覧 ・ 社内資料 ・ 取り扱い注意（顧客への直送は不可、提示前に担当 PdM に確認）
+</footer>
+
+</div>
+
+<!-- ============================================================== -->
+<!-- Chart.js : 求人分析（テンプレ準拠）+ ダッシュボード             -->
+<!-- ============================================================== -->
+<script>
+const PF_AVG = 0.75;
+const pct = (r) => Math.round(r * 100) + '%';
+const fmtNum = (n) => n.toLocaleString('ja-JP');
+
+const workTypeDay = {
+  '夜勤': [
+    { day: '月', listings: 610, applied: 491 },
+    { day: '火', listings: 857, applied: 705 },
+    { day: '水', listings: 672, applied: 501 },
+    { day: '木', listings: 744, applied: 600 },
+    { day: '金', listings: 813, applied: 649 },
+    { day: '土', listings: 736, applied: 582 },
+    { day: '日', listings: 906, applied: 659 },
+    { day: '祝', listings: 287, applied: 227 },
+  ],
+  '日勤': [
+    { day: '月', listings: 153, applied: 94  },
+    { day: '火', listings: 227, applied: 164 },
+    { day: '水', listings: 301, applied: 216 },
+    { day: '木', listings: 280, applied: 184 },
+    { day: '金', listings: 162, applied: 102 },
+    { day: '土', listings: 390, applied: 292 },
+    { day: '日', listings: 319, applied: 222 },
+    { day: '祝', listings: 165, applied: 133 },
+  ],
+  '日当直': [
+    { day: '月', listings: 55,   applied: 18  },
+    { day: '火', listings: 55,   applied: 33  },
+    { day: '水', listings: 27,   applied: 12  },
+    { day: '木', listings: 20,   applied: 3   },
+    { day: '金', listings: 180,  applied: 134 },
+    { day: '土', listings: 1106, applied: 840 },
+    { day: '日', listings: 602,  applied: 428 },
+    { day: '祝', listings: 251,  applied: 170 },
+  ],
+};
+const wtStart = {
+  '夜勤':  [{h:17,listings:2380,applied:1655},{h:18,listings:608,applied:550},{h:19,listings:2612,applied:2193}],
+  '日勤':  [{h:7,listings:114,applied:95},{h:8,listings:1423,applied:1034},{h:9,listings:398,applied:258},{h:12,listings:17,applied:11}],
+  '日当直':[{h:8,listings:615,applied:450},{h:9,listings:657,applied:438},{h:12,listings:207,applied:152},{h:13,listings:92,applied:75},{h:17,listings:489,applied:366}],
+};
+const wtEnd = {
+  '夜勤':  [{h:7,listings:3070,applied:2618},{h:8,listings:1904,applied:1357},{h:9,listings:612,applied:404}],
+  '日勤':  [{h:17,listings:927,applied:591},{h:18,listings:224,applied:201},{h:19,listings:757,applied:582}],
+  '日当直':[{h:7,listings:355,applied:269},{h:8,listings:759,applied:540},{h:9,listings:395,applied:253},{h:17,listings:672,applied:494}],
+};
+const dayOrder = ['月','火','水','木','金','土','日','祝'];
+const wtRec = {
+  '夜勤': {
+    weekday: '<strong>19 時開始 / 7 時終了</strong>が最もオススメです。月〜金は応募率が高水準で、曜日差は小さく時刻が決定的な要素となります。',
+    weekend: '土曜は <strong>19 時開始 / 7 時終了</strong>、日曜は <strong>17 時開始 / 7 時終了</strong>が高い水準です。',
+    avoid:   '<strong>17 時開始 / 9 時終了</strong>は平均より応募率が低めの傾向があります。',
+  },
+  '日勤': {
+    weekday: '比較的高いのは <strong>8 時開始 / 19 時終了</strong>で、月〜金を通して応募が集まりやすい傾向です。',
+    weekend: '<strong>土日 8 時開始 / 17 時終了</strong>、または <strong>日曜 9 時開始 / 18 時終了</strong>が高い応募率となっています。',
+    avoid:   '<strong>21 時終了</strong>は応募が集まりにくい傾向にあります。',
+  },
+  '日当直': {
+    weekday: '平日は応募率にばらつきが大きい一方、火曜の <strong>8 時開始 / 8 時終了</strong>は比較的高水準です。',
+    weekend: '<strong>土曜 8 時開始 / 8 時終了（24 時間勤務）</strong>、<strong>日曜 9 時開始 / 7 時終了</strong>がいずれも高い応募率となっています。',
+    avoid:   '月曜・火曜の <strong>17 時開始 / 17 時終了</strong>は応募率が低水準です。',
+  },
+};
+let currentWt = '夜勤';
+const charts = { day: null, start: null, end: null };
+function findDay(arr, day) { return arr.find(r => r.day === day); }
+function syncWorkTypeUI() {
+  const rec = wtRec[currentWt];
+  document.getElementById('wt-rec').innerHTML = `
+    <div class="wt-rec-row">
+      <span class="wt-rec-label good">平日のオススメ</span>
+      <span class="wt-rec-text">${rec.weekday}</span>
+    </div>
+    <div class="wt-rec-row">
+      <span class="wt-rec-label good">土日のオススメ</span>
+      <span class="wt-rec-text">${rec.weekend}</span>
+    </div>
+    <div class="wt-rec-row">
+      <span class="wt-rec-label warn">避ける条件</span>
+      <span class="wt-rec-text">${rec.avoid}</span>
+    </div>
+  `;
+}
+function rebuildChart(canvasId, labels, rates, listings, chartKey) {
+  const old = charts[chartKey];
+  if (old) old.destroy();
+  const ctx = document.getElementById(canvasId);
+  if (!ctx) return;
+  charts[chartKey] = new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: [{
+      data: rates.map(r => r != null ? Math.round(r * 100) : null),
+      backgroundColor: '#88AAF3',
+      borderRadius: 4,
+      barPercentage: 0.7,
+      _rates: rates, _listings: listings,
+    }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 400 },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: {
+          label: (ctx) => {
+            const ds = ctx.chart.data.datasets[0];
+            const r = ds._rates[ctx.dataIndex];
+            if (r == null) return 'N<30 のため非表示';
+            return `応募率 ${pct(r)} (${fmtNum(ds._listings[ctx.dataIndex])} 件)`;
+          }
+        }}
+      },
+      scales: {
+        y: { min: 50, max: 100, ticks: { callback: v => v + '%' }, grid: { color: '#EDF2F7' } },
+        x: { grid: { display: false } },
+      }
+    },
+    plugins: [{
+      id: 'avgLine' + canvasId,
+      afterDraw(chart) {
+        const { ctx, chartArea: { left, right }, scales: { y } } = chart;
+        const yPos = y.getPixelForValue(PF_AVG * 100);
+        ctx.save();
+        ctx.strokeStyle = '#8E9EB1';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(left, yPos); ctx.lineTo(right, yPos); ctx.stroke();
+        ctx.restore();
+      }
+    }],
+  });
+}
+function rebuildAllChartsForWt() {
+  const dayRows = workTypeDay[currentWt];
+  const dayRates = dayOrder.map(l => {
+    const r = findDay(dayRows, l);
+    return (r && r.listings > 30) ? r.applied / r.listings : null;
+  });
+  const dayN = dayOrder.map(l => {
+    const r = findDay(dayRows, l);
+    return (r && r.listings > 30) ? r.listings : 0;
+  });
+  rebuildChart('chart-sel-day', dayOrder, dayRates, dayN, 'day');
+
+  const startVisible = wtStart[currentWt].filter(r => r.listings > 30 && (r.applied / r.listings) >= 0.5);
+  const startAll = wtStart[currentWt].filter(r => r.listings > 30);
+  const startLabels = [], startRates = [], startN = [];
+  if (startVisible.length > 0) {
+    const minH = Math.min(...startVisible.map(r => r.h));
+    const maxH = Math.max(...startVisible.map(r => r.h));
+    for (let h = minH; h <= maxH; h++) {
+      startLabels.push(h + '時');
+      const r = startAll.find(x => x.h === h);
+      startRates.push(r ? r.applied / r.listings : null);
+      startN.push(r ? r.listings : 0);
+    }
+  }
+  rebuildChart('chart-sel-start', startLabels, startRates, startN, 'start');
+
+  const endVisible = wtEnd[currentWt].filter(r => r.listings > 30 && (r.applied / r.listings) >= 0.5);
+  const endAll = wtEnd[currentWt].filter(r => r.listings > 30);
+  const endLabels = [], endRates = [], endN = [];
+  if (endVisible.length > 0) {
+    const minH = Math.min(...endVisible.map(r => r.h));
+    const maxH = Math.max(...endVisible.map(r => r.h));
+    for (let h = minH; h <= maxH; h++) {
+      endLabels.push(h + '時');
+      const r = endAll.find(x => x.h === h);
+      endRates.push(r ? r.applied / r.listings : null);
+      endN.push(r ? r.listings : 0);
+    }
+  }
+  rebuildChart('chart-sel-end', endLabels, endRates, endN, 'end');
+}
+document.querySelectorAll('.wt-tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (btn.classList.contains('active')) return;
+    document.querySelectorAll('.wt-tabs button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentWt = btn.dataset.wt;
+    syncWorkTypeUI();
+    rebuildAllChartsForWt();
+  });
+});
+
+// Lazy init flags
+const chartsInit = { time: false, salary: false, dashboard: false };
+
+function initTimeCharts() {
+  syncWorkTypeUI();
+  rebuildAllChartsForWt();
+}
+
+function initSalaryChart() {
+  const salaryCtx = document.getElementById('chart-salary');
+  if (!salaryCtx) return;
+  // Sample data: scatter (時給, 応募率) + line (時給, 求人数)
+  const scatterData = [
+    {x: 4500, y: 16}, {x: 4800, y: 41}, {x: 5200, y: 12}, {x: 5500, y: 57},
+    {x: 5800, y: 23}, {x: 5800, y: 38}, {x: 5900, y: 20}, {x: 6000, y: 70},
+    {x: 6200, y: 67}, {x: 6400, y: 68}, {x: 6600, y: 75}, {x: 6800, y: 45},
+    {x: 6800, y: 73}, {x: 7000, y: 55}, {x: 7100, y: 63}, {x: 7200, y: 82},
+    {x: 7300, y: 80}, {x: 7300, y: 42}, {x: 7400, y: 79}, {x: 7500, y: 92},
+    {x: 7600, y: 75}, {x: 7700, y: 51}, {x: 7800, y: 75}, {x: 7900, y: 53},
+    {x: 8000, y: 60}, {x: 8200, y: 70}, {x: 8300, y: 82}, {x: 8400, y: 76},
+    {x: 8500, y: 58}, {x: 8600, y: 79}, {x: 8800, y: 65}, {x: 8900, y: 91},
+    {x: 9000, y: 60}, {x: 9100, y: 79}, {x: 9200, y: 58}, {x: 9400, y: 71},
+    {x: 9600, y: 67}, {x: 9800, y: 84}, {x: 10000, y: 90}, {x: 10200, y: 26},
+    {x: 10500, y: 78}, {x: 10800, y: 91}, {x: 11000, y: 22}, {x: 11200, y: 83},
+    {x: 11500, y: 70}, {x: 12000, y: 76}, {x: 12500, y: 70}, {x: 13000, y: 52},
+    {x: 13500, y: 70}, {x: 14000, y: 82}, {x: 14500, y: 85}, {x: 15000, y: 70},
+  ];
+  const lineData = [
+    {x: 4500, y: 300}, {x: 5000, y: 250}, {x: 5500, y: 400}, {x: 6000, y: 600},
+    {x: 6300, y: 1100}, {x: 6500, y: 3600}, {x: 6800, y: 800}, {x: 7000, y: 1300},
+    {x: 7200, y: 1100}, {x: 7300, y: 5000}, {x: 7400, y: 4000}, {x: 7500, y: 1100},
+    {x: 7800, y: 1100}, {x: 8000, y: 600}, {x: 8200, y: 800}, {x: 8500, y: 2600},
+    {x: 8800, y: 1500}, {x: 9000, y: 1000}, {x: 9500, y: 1100}, {x: 10000, y: 1600},
+    {x: 10500, y: 600}, {x: 11000, y: 500}, {x: 11500, y: 800}, {x: 12000, y: 600},
+    {x: 12500, y: 400}, {x: 13000, y: 100}, {x: 13500, y: 50}, {x: 14000, y: 30},
+    {x: 14500, y: 20}, {x: 15000, y: 10},
+  ];
+  charts.salary = new Chart(salaryCtx, {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: '応募率',
+          data: scatterData,
+          backgroundColor: '#074DE5',
+          pointRadius: 4,
+          yAxisID: 'y',
+        },
+        {
+          type: 'line',
+          label: '求人数',
+          data: lineData,
+          borderColor: '#A0AEC0',
+          backgroundColor: 'transparent',
+          borderWidth: 1.5,
+          pointRadius: 0,
+          tension: 0.3,
+          yAxisID: 'y1',
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', align: 'end', labels: { font: { size: 11 }, boxWidth: 12 } },
+        tooltip: { callbacks: {
+          label: (ctx) => ctx.dataset.label === '応募率'
+            ? `応募率 ${ctx.parsed.y}% (時給${ctx.parsed.x.toLocaleString()}円)`
+            : `求人数 ${ctx.parsed.y}件`
+        }}
+      },
+      scales: {
+        x: {
+          min: 4000, max: 15000,
+          title: { display: true, text: '時給（円）', font: { size: 11 } },
+          ticks: { callback: v => v.toLocaleString(), stepSize: 2000 },
+          grid: { color: '#EDF2F7' }
+        },
+        y: {
+          min: 0, max: 100, position: 'left',
+          title: { display: true, text: '応募率（%）', font: { size: 11 } },
+          ticks: { callback: v => v + '%' },
+          grid: { color: '#EDF2F7' }
+        },
+        y1: {
+          min: 0, max: 8000, position: 'right',
+          title: { display: true, text: '求人数', font: { size: 11 } },
+          grid: { display: false }
+        }
+      }
+    },
+    plugins: [{
+      id: 'optimalZone',
+      beforeDatasetsDraw(chart) {
+        const { ctx, chartArea, scales } = chart;
+        const yTop = scales.y.getPixelForValue(100);
+        const yBottom = scales.y.getPixelForValue(80);
+        ctx.save();
+        ctx.fillStyle = 'rgba(195, 212, 249, 0.25)';
+        ctx.fillRect(chartArea.left, yTop, chartArea.right - chartArea.left, yBottom - yTop);
+        ctx.restore();
+      }
+    }]
+  });
+}
+
+function initDashboardChart() {
+  const dashCtx = document.getElementById('chart-dashboard');
+  if (!dashCtx) return;
+  charts.dashboard = new Chart(dashCtx, {
+    type: 'bar',
+    data: {
+      labels: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+      datasets: [{
+        type: 'bar',
+        label: '勤務コマ数',
+        data: [4, 6, 7, 8, 9, 10, 8, 7, 6, 5, 6, 8],
+        backgroundColor: '#88AAF3',
+        borderRadius: 4,
+        yAxisID: 'y',
+      }, {
+        type: 'line',
+        label: '受け入れ率',
+        data: [62, 68, 72, 78, 82, 85, 80, 76, 72, 70, 75, 78],
+        borderColor: '#074DE5',
+        backgroundColor: '#074DE5',
+        tension: 0.3,
+        yAxisID: 'y1',
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: true, position: 'bottom', labels: { font: { size: 11 } } } },
+      scales: {
+        y: { beginAtZero: true, position: 'left', grid: { color: '#EDF2F7' } },
+        y1: { beginAtZero: true, max: 100, position: 'right', grid: { display: false }, ticks: { callback: v => v + '%' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+// ====== Feature Switching (Section 3) ======
+const featureData = {
+  'p-listings': {
+    id: '3-5', title: 'アンケート未回答表示', isNew: false, icon: '🔔',
+    pitch: '毎月のアンケート催促、もう要らない。<strong>サイドバーに常時表示</strong>で病院が自分で気付く。',
+    url: 'hospital.drsprime.com/v2/.../listings',
+    problem: 'アンケート結果は <strong>fee（請求）の計算</strong>に使うため毎月の入力が必須。だが「どれが未回答か」が分かりにくく、CS が毎月催促メールを送る運用になっていた。',
+    solve: '求人管理のサイドバーに <strong>「未回答のアンケート N 件」</strong> を常時表示。クリックで未回答一覧モーダルが開き、医師名・勤務日と「回答する」ボタンが 1 リストで並ぶ。',
+    effects: ['<strong>CS の毎月催促オペ</strong>がなくなる', 'アンケート回答率↑ → 請求漏れ・遅延が減る']
+  },
+  'p-scout': {
+    id: '3-7', title: 'スカウト機能（常勤・非常勤両対応）', isNew: false, icon: '📤',
+    pitch: '<strong>6,224 名</strong>のワーク会員に、病院が自分で声をかけられる。実績・満足度つきカードで安心。',
+    url: 'hospital.drsprime.com/v2/.../scout',
+    problem: '従来は CS が手作業でデータ抽出 → メール送信。スケールしないし、病院担当者が自走できず CS 介在型から脱却できなかった。',
+    solve: '病院アカウントからスカウト送信できる機能を MVP リリース。<strong>ワーク会員カードに勤務回数・救急応需率・満足度 3 指標・ログイン履歴</strong>を表示。常勤先／NG／退会医師は非表示、初期研修医にはダイアログ警告。',
+    effects: ['病院担当者が <strong>CS を介さず自走でスカウト</strong>', '「過去実績」という信頼の裏付けで送信判断のハードル↓']
+  },
+  'p-voice': {
+    id: '—', title: '勤務医師の声', isNew: false, icon: '💬',
+    pitch: '医師が残した「感謝の声」「改善要望」を病院が直接読める。<strong>詳細は <a href="#s1" style="color:var(--blue-500); text-decoration:underline;">セクション 1</a></strong> で。',
+    url: 'hospital.drsprime.com/v2/.../voices',
+    problem: 'この機能の詳細は本資料の <a href="#s1" style="color:var(--blue-500); text-decoration:underline;">セクション 1（相互評価の見える化）</a> でカバーしています。',
+    solve: 'アンケート 4-2 の項目を医師アプリ・メールへ自動共有 + 病院側に医師からの声を直通表示する仕組み。',
+    effects: ['詳細は <a href="#s1" style="color:var(--blue-500); text-decoration:underline;">セクション 1</a> を参照']
+  },
+  'p-summary': {
+    id: '3-4', title: '医師別サマリー', isNew: false, icon: '👤',
+    pitch: '<strong>「この先生よかったですよね」</strong> の提案が、画面を一緒に見るだけで完結する。資料準備ゼロ。',
+    url: 'hospital.drsprime.com/v2/.../analytics',
+    problem: '「この医師は何回来てくれたか」「応需率は？」を把握したかったが画面が分散。CS が BQ から個別資料を作る運用が発生していた。',
+    solve: 'analytics に <strong>医師別評価サマリー</strong> を新設。期間指定で勤務医師を 1 行表示、勤務数・応需率・入院率・不当な断り数・リピート意向・3軸満足度を一覧化。',
+    effects: ['<strong>特定医師への依存度</strong>が一目で分かる', 'リスティング UP 提案が <strong>画面ひとつで完結</strong>']
+  },
+  'p-repeat': {
+    id: '3-8', title: 'リピート意向の見える化', isNew: true, icon: '❤️',
+    pitch: '医師の<strong>「また来たい」</strong>が、病院の画面に直接届く。CS アポを待たずに次の枠が作れる。',
+    url: 'hospital.drsprime.com/v2/.../analytics?tab=repeat-intent',
+    problem: '医師がアンケートで答えた「リピート意向」（スポット希望日／定期希望曜日）は、<strong>病院側の画面では確認できなかった</strong>。重要情報なのに CS アポでしか共有されない状態だった。',
+    solve: '勤務実績画面に <strong>「リピート意向」</strong> ページを新設。スポット希望日・定期希望曜日を一覧表示。「現在の掲載状況を確認する」リンクで自院カレンダーに即ジャンプ。',
+    effects: ['「<strong>来てくれる先生がリピート希望</strong>」が病院に直接届く', '医師別サマリーと並べると「リピート希望 × 高評価」が特定できる']
+  },
+  'p-dashboard': {
+    id: '3-3', title: 'ダッシュボード＋AI フィードバック', isNew: false, icon: '📊',
+    pitch: '応需率の振り返りに、<strong>AI が改善案＋年間収益インパクト</strong>まで添えてくれる。',
+    url: 'hospital.drsprime.com/v2/.../analytics',
+    problem: '救急応需率や断り理由を病院が振り返りたくても、ログ集計の手間が大きい。CS が BQ から個別資料を作っていた。',
+    solve: 'ダッシュボードに加え、<strong>AI フィードバック機能（β）</strong>を右下に配置。「数値傾向 → 改善ポイント → 年間収益インパクト試算 → 改善提案」をチャット形式で返す。',
+    effects: ['病院が <strong>自走で振り返り</strong>できる', 'AI が改善ポイントまでコメント → 気付きから打ち手までが速い']
+  },
+  'p-salary': {
+    id: '3-1', title: '適正給与分析（給与別 / 時間別の 2 タブ）', isNew: false, icon: '💴',
+    pitch: '<strong>「あと何円上げる？ いつの枠にする？」</strong> 病院が自分でデータから答えを見つける。',
+    url: 'hospital.drsprime.com/v2/.../job-analysis',
+    problem: '病院は「この時間に医師が欲しい」起点だけで求人を出していた。応募が集まらない時の打ち手（時間ずらし／単価調整）が <strong>DCAP として回らず</strong>、CS の個別アポでしか助言できなかった。',
+    solve: '<strong>給与別応募率</strong>（既存）と <strong>時間別応募率</strong>（新規）を 2 タブで提供。仕事タイプ・曜日・時刻と応募率の関係が見える。',
+    effects: ['CS アポ後、病院単体で自走できる', '<strong>単価インフレを回避</strong>：時間調整で済むケースが見える']
+  },
+  'p-simulator': {
+    id: '3-2', title: '救急収益シミュレーション', isNew: false, icon: '💰',
+    pitch: '<strong>DP を入れると +186,162 円／勤務。</strong> ボタンひとつで答えが出る、稟議に使える試算ツール。',
+    url: 'hospital.drsprime.com/v2/.../revenue-simulator',
+    problem: 'DP 医師導入の収益効果を説明する場面が多いが、毎回手計算 or スライド個別作成。プロダクト内シミュレーターはあったが <strong>毎回 9 項目入力し直す</strong>のがネックだった。',
+    solve: '<strong>パターン保存機能（最大 5 パターン）</strong>を追加。シナリオ別に保存・再利用可能。先頭パターンは求人一覧 POPUP に自動反映する基盤としても利用予定。',
+    effects: ['アポでその場で「DP を入れるとこれだけ伸びる」を見せられる', '病院が <strong>内部稟議・経営会議でそのまま使える</strong>']
+  },
+  'p-images': {
+    id: '2-1', title: '病院画像（管理画面側）', isNew: false, icon: '🖼',
+    pitch: '応募前に病院の中が見える。<strong>「受けたら断れない求人」の心理ハードル</strong>がぐっと下がる。',
+    url: 'hospital.drsprime.com/v2/.../images',
+    problem: '医師インタビューで「ワークは受けたら断れない求人。受ける前にイメージが湧かないと応募できない」という声が複数。',
+    solve: 'beer-web 求人詳細に <strong>「病院の様子セクション」</strong> を新設。病院単位で最大 10 枚（4:3 比率）の画像を入稿可能。',
+    effects: ['医師の応募 CVR↑', '医師側の表示は <a href="#s2" style="color:var(--blue-500); text-decoration:underline;">セクション 2-1</a> 参照']
+  }
+};
+
+function switchFeature(navEl) {
+  const target = navEl.dataset.target;
+  // Hide all panels, show target
+  document.querySelectorAll('.feature-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById(target);
+  if (panel) panel.classList.add('active');
+  // Update sidebar active
+  document.querySelectorAll('.dp-nav-item[data-target]').forEach(n => n.classList.remove('active'));
+  navEl.classList.add('active');
+  // Update meta
+  const d = featureData[target];
+  if (!d) return;
+  document.getElementById('fi-id').textContent = d.id;
+  document.getElementById('fi-title').textContent = d.title;
+  document.getElementById('fi-pitch').innerHTML = d.pitch;
+  document.getElementById('fi-pitch-icon').textContent = d.icon || '💡';
+  document.getElementById('fi-url').textContent = d.url;
+  document.getElementById('fi-problem').innerHTML = d.problem;
+  document.getElementById('fi-solve').innerHTML = d.solve;
+  document.getElementById('fi-effect-list').innerHTML = d.effects.map(e => `<li>${e}</li>`).join('');
+  document.getElementById('fi-new').style.display = d.isNew ? 'inline-block' : 'none';
+  // Lazy init charts when their panel becomes visible
+  setTimeout(() => {
+    if (target === 'p-salary' && !chartsInit.salary) {
+      initSalaryChart();
+      chartsInit.salary = true;
+    }
+    if (target === 'p-dashboard' && !chartsInit.dashboard) {
+      initDashboardChart();
+      chartsInit.dashboard = true;
+    }
+    // Resize any visible charts
+    Object.values(charts).forEach(c => { if (c && c.resize) c.resize(); });
+  }, 30);
+}
+
+function switchSalaryTab(tab, el) {
+  document.querySelectorAll('#p-salary > .salary-subtab').forEach(t => t.classList.remove('active'));
+  const sub = document.getElementById('salary-subtab-' + tab);
+  if (sub) sub.classList.add('active');
+  document.querySelectorAll('#p-salary > .job-tabs > .tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  // Lazy init time charts
+  setTimeout(() => {
+    if (tab === 'time' && !chartsInit.time) {
+      initTimeCharts();
+      chartsInit.time = true;
+    }
+    Object.values(charts).forEach(c => { if (c && c.resize) c.resize(); });
+  }, 30);
+}
+
+function tocSwitch(target) {
+  const navEl = document.querySelector(`.dp-nav-item[data-target="${target}"]`);
+  if (navEl) switchFeature(navEl);
+}
+
+function switchMainTab(tabEl) {
+  const target = tabEl.dataset.tab;
+  document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+  tabEl.classList.add('active');
+  document.querySelectorAll('.main-tab-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById(target);
+  if (panel) panel.classList.add('active');
+  // Scroll to tabs top
+  const tabsTop = document.querySelector('.main-tabs-wrap');
+  if (tabsTop) tabsTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Resize charts after panel becomes visible
+  setTimeout(() => {
+    Object.values(charts).forEach(c => { if (c && c.resize) c.resize(); });
+  }, 100);
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  const initial = document.querySelector('.dp-nav-item[data-target].active');
+  if (initial) switchFeature(initial);
+});
+</script>
+</body>
+</html>
